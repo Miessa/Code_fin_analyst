@@ -1,0 +1,40 @@
+{
+  "sources": [
+    {
+      "source_id": "irena_rpgc_2024",
+      "organization": "IRENA",
+      "url": "https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2025/Jul/IRENA_TEC_RPGC_in_2024_2025.pdf",
+      "keywords": ["total installed costs", "capacity factor", "LCOE", "O&M costs", "hydropower", "solar PV"]
+    },
+    {
+      "source_id": "iea_cost_capital_observatory_2022",
+      "organization": "IEA",
+      "url": "https://www.iea.org/reports/cost-of-capital-observatory/tools-and-analysis",
+      "keywords": ["Capital costs", "Cost of capital", "LCOE", "South Africa"]
+    },
+    {
+      "source_id": "afdb_sahofika_hydro_2020",
+      "organization": "AfDB",
+      "url": "https://www.afdb.org/sites/default/files/documents/projects-and-operations/madagascar_-_sahofika_192mw_hydropower_project_partial_risk_guarantee_-_project_appraisal_report.pdf",
+      "keywords": ["equity IRR", "minimum DSCR", "Investment Cost", "OPEX", "tariff"]
+    },
+    {
+      "source_id": "afdb_sokode_solar_2026",
+      "organization": "AfDB",
+      "url": "https://www.afdb.org/sites/default/files/documents/projects-and-operations/togo-sokode_42mwac_solar_pv_project_psn.pdf",
+      "keywords": ["equity IRR", "minimum DSCR", "tariff", "EURIBOR"]
+    },
+    {
+      "source_id": "afdb_yeleen_burkina_2026",
+      "organization": "AfDB",
+      "url": "https://www.afdb.org/sites/default/files/documents/projects-and-operations/burkina_faso_desert_to_power_initiative_yeleen_rural_electrification_project.pdf",
+      "keywords": ["equity IRR", "capped tariff", "FIRR", "EUR 0.12/kWh"]
+    },
+    {
+      "source_id": "world_bank_sif_2016",
+      "organization": "World Bank",
+      "url": "https://documents1.worldbank.org/curated/en/235311475681523659/pdf/WPS7851.pdf",
+      "keywords": ["Africa Renewable Energy Fund", "equity project finance", "30–50%"]
+    }
+  ]
+}

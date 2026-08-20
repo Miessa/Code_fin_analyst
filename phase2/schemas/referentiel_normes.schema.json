@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["_version", "normes"],
+  "properties": {
+    "_version": {"type": "string"},
+    "_updated": {"type": "string"},
+    "normes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["cle", "applies_to", "unit", "source", "perimeter", "approved"],
+        "properties": {
+          "cle": {"type": "string"},
+          "applies_to": {"type": "string"},
+          "low": {"type": ["number", "null"]},
+          "high": {"type": ["number", "null"]},
+          "target": {"type": ["number", "null"]},
+          "comparison_type": {"enum": ["range", "point"]},
+          "tolerance": {"type": "number", "minimum": 0},
+          "unit": {"type": "string"},
+          "source": {"type": "string"},
+          "source_url": {"type": ["string", "null"]},
+          "edition_year": {"type": ["integer", "null"]},
+          "data_year": {"type": ["integer", "null"]},
+          "retrieved_at": {"type": ["string", "null"]},
+          "perimeter": {"type": "string"},
+          "approved": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,427 @@
+{
+  "metadata": {
+    "workbook": "Project Kikot Sponsor Model v18a(2).xlsb",
+    "purpose": "Development/validation ground truth for ARSEL retrieval and extraction evaluation",
+    "notes": [
+      "label_addresses are intended for TF-IDF retrieval evaluation.",
+      "value_addresses are intended for downstream cell/value extraction evaluation.",
+      "Kikot should be treated as a development/validation benchmark if its errors are used to tune retrieval.",
+      "Metrics marked evaluation_enabled=false should not be included in ordinary positive Recall@K calculations."
+    ]
+  },
+  "metrics": {
+    "cout_construction": {
+      "type": "scalar",
+      "label_addresses": [
+        "Summary!K36"
+      ],
+      "labels": [
+        "EPC "
+      ],
+      "value_addresses": [
+        "Summary!M36"
+      ],
+      "expected_value": 1234548.782974364,
+      "unit": "kEUR",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Equals the sum of InpC!F290:F298. This is the EPC/construction-cost reference retained for the benchmark."
+    },
+    "investissement_total": {
+      "type": "scalar",
+      "label_addresses": [
+        "Summary!K58"
+      ],
+      "labels": [
+        "Uses of funds"
+      ],
+      "value_addresses": [
+        "Summary!M58"
+      ],
+      "expected_value": 2472419.665248484,
+      "unit": "kEUR",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Total uses of funds; includes financing costs."
+    },
+    "opex_1": {
+      "type": "scalar_with_alternative_period",
+      "label_addresses": [
+        "FS_Ann!E16"
+      ],
+      "labels": [
+        "OPEX incl. staff and insurance "
+      ],
+      "value_addresses": [
+        "FS_Ann!S16"
+      ],
+      "alternative_value_addresses": [
+        "FS_Ann!T16"
+      ],
+      "expected_raw_value": -18699.161452419918,
+      "expected_cost_magnitude": 18699.161452419918,
+      "alternative_full_year_raw_value": -25110.43937627173,
+      "unit": "kEUR",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "S16 is the first non-zero operating year but is partial. T16 is the following full operating year. Workbook stores costs as negative values."
+    },
+    "inflation_opex": {
+        "type": "multi_series",
+        "series": [
+            {
+            "name": "EUR CPI %",
+            "label_address": "InpS!E177",
+            "start_address": "InpS!J177",
+            "end_address": "InpS!<DERNIERE_COLONNE>177"
+            },
+            {
+            "name": "Cameroon CPI%",
+            "label_address": "InpS!E178",
+            "start_address": "InpS!J178",
+            "end_address": "InpS!<DERNIERE_COLONNE>178"
+            }
+        ],
+        "unit": "% p.a.",
+        "status": "validated_complex",
+        "evaluation_enabled": true,
+        "note": "OPEX does not use one inflation rate. Most OPEX selectors use EUR CPI; O&M E&S and time-based water charge use Cameroon CPI. The EUR CPI path starts around 5.4619%, then 2.4703%, then 2.0%."
+    },
+    "tarif": {
+      "type": "scalar",
+      "label_addresses": [
+        "Summary!E11"
+      ],
+      "labels": [
+        "Capacity charge"
+      ],
+      "value_addresses": [
+        "Summary!G11"
+      ],
+      "expected_value": 63.99916647024041,
+      "unit": "EUR/kW/month",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Base capacity charge."
+    },
+    "gearing": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpC!E17"
+      ],
+      "labels": [
+        "Target leverage (Max allowed)"
+      ],
+      "value_addresses": [
+        "InpC!F17"
+      ],
+      "expected_value": 0.75,
+      "unit": "%",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Target leverage, not realized gearing."
+    },
+    "taux_dette": {
+      "type": "scalar",
+      "label_addresses": [
+        "Output!E194"
+      ],
+      "labels": [
+        "Average cost of debt - consolidated"
+      ],
+      "value_addresses": [
+        "Output!H194"
+      ],
+      "expected_value": 0.08140472471714023,
+      "unit": "% p.a.",
+      "status": "validated",
+      "evaluation_enabled": true
+    },
+    "duree_dette": {
+      "type": "multi_value",
+      "label_addresses": [
+        "InpC!E687",
+        "InpC!E770"
+      ],
+      "labels": [
+        "Senior debt tenor door to door maturity - Tranche 1",
+        "Senior debt tenor door to door maturity - Tranche 2"
+      ],
+      "value_addresses": [
+        "InpC!F687",
+        "InpC!F770"
+      ],
+      "expected_values": [
+        18.0,
+        21.0
+      ],
+      "unit": "years",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Two active senior debt tranches; no single senior maturity."
+    },
+    "dscr_cible": {
+      "type": "scalar_with_equivalent",
+      "label_addresses": [
+        "InpC!E44",
+        "InpC!E45"
+      ],
+      "labels": [
+        "Target DSCR pre cashsweep",
+        "Target DSCR post cashsweep"
+      ],
+      "value_addresses": [
+        "InpC!F44",
+        "InpC!F45"
+      ],
+      "expected_value": 1.78,
+      "unit": "ratio",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Pre- and post-cashsweep targets are both 1.78 in this workbook."
+    },
+    "is_taux": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpC!E1356"
+      ],
+      "labels": [
+        "Corporate tax rate (sales > 3bn XAF)"
+      ],
+      "value_addresses": [
+        "InpC!F1356"
+      ],
+      "expected_value": 0.33,
+      "unit": "%",
+      "status": "validated",
+      "evaluation_enabled": true
+    },
+    "tva": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpC!E1436"
+      ],
+      "labels": [
+        "VAT on construction cost"
+      ],
+      "value_addresses": [
+        "InpC!F1436"
+      ],
+      "expected_value": 0.1925,
+      "unit": "%",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Specific VAT treatments exist elsewhere; this is the construction-cost VAT reference."
+    },
+    "wht": {
+      "type": "multi_value",
+      "label_addresses": [
+        "InpC!E333",
+        "InpC!E357",
+        "InpC!E370",
+        "InpC!E429",
+        "InpC!E1163",
+        "InpC!E1264",
+        "InpC!E1531",
+        "InpC!E1535",
+        "InpC!E1588",
+        "InpC!E1589"
+      ],
+      "labels": [
+        "WHT rate applicable on EPC costs",
+        "WHT rate on Pre-FC capex",
+        "WHT rate on Anticipated capex",
+        "WHT rate on DEVEX",
+        "WHT on revenue",
+        "WHT rate on Annual O&M cost technical",
+        "Withholding tax rate - exempt bank senior debt interest",
+        "Withholding tax rate - non exempt bank senior debt interest",
+        "Withholding tax rate - shareholder loan interest - EDF",
+        "Withholding tax rate - dividends - EDF"
+      ],
+      "value_addresses": [
+        "InpC!F333",
+        "InpC!F357",
+        "InpC!F370",
+        "InpC!F429",
+        "InpC!F1163",
+        "InpC!F1264",
+        "InpC!F1531",
+        "InpC!F1535",
+        "InpC!F1588",
+        "InpC!F1589"
+      ],
+      "expected_value": null,
+      "unit": "%",
+      "status": "validated_complex",
+      "evaluation_enabled": false,
+      "note": "There is no unique WHT rate. The listed addresses are representative validated WHT inputs, not an exhaustive scalar target. Excluded from ordinary positive Recall@K."
+    },
+    "amortissement_duree": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpC!E1433"
+      ],
+      "labels": [
+        "Useful life of asset"
+      ],
+      "value_addresses": [
+        "InpC!F1433"
+      ],
+      "expected_value": 35.0,
+      "unit": "years",
+      "status": "validated",
+      "evaluation_enabled": true
+    },
+    "tri_projet": {
+      "type": "scalar_with_alternative",
+      "label_addresses": [
+        "Summary!K6"
+      ],
+      "labels": [
+        "Project IRR - Post tax"
+      ],
+      "value_addresses": [
+        "Summary!N6"
+      ],
+      "alternative_value_addresses": [
+        "Summary!O6"
+      ],
+      "expected_value": 0.1289800941944122,
+      "alternative_real_value": 0.11801288723945619,
+      "unit": "%",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Nominal project IRR is the primary benchmark; O6 is the real IRR."
+    },
+    "tri_fonds_propres": {
+      "type": "scalar",
+      "label_addresses": [
+        "Output!E23"
+      ],
+      "labels": [
+        "Consortium Equity IRR"
+      ],
+      "value_addresses": [
+        "Output!H23"
+      ],
+      "expected_value": 0.13579146265983583,
+      "unit": "% p.a.",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Consortium equity IRR, distinct from sponsor-specific IRRs."
+    },
+    "wacc": {
+      "type": "no_match",
+      "label_addresses": [],
+      "labels": [],
+      "value_addresses": [],
+      "expected_value": null,
+      "unit": "%",
+      "status": "validated_no_match",
+      "evaluation_enabled": false,
+      "note": "No explicit WACC cell was identified in the workbook. This should be used as a negative-control / false-positive test rather than positive Recall@K."
+    },
+    "taux_actualisation": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpC!E1154"
+      ],
+      "labels": [
+        "Discount rate for NPV for LCOE"
+      ],
+      "value_addresses": [
+        "InpC!F1154"
+      ],
+      "expected_value": 0.1,
+      "unit": "% p.a.",
+      "status": "validated",
+      "evaluation_enabled": true,
+      "note": "Other calibration rates exist; this is the explicit NPV/LCOE discount-rate input."
+    },
+    "puissance": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpC!E1168"
+      ],
+      "labels": [
+        "Plant capacity during operations"
+      ],
+      "value_addresses": [
+        "InpC!F1168"
+      ],
+      "expected_value": 500.0,
+      "unit": "MW",
+      "status": "validated",
+      "evaluation_enabled": true
+    },
+    "productible": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpS!E134"
+      ],
+      "labels": [
+        "Electricity generation - Year 1"
+      ],
+      "value_addresses": [
+        "InpS!F134"
+      ],
+      "expected_value": 3300000.0,
+      "unit": "MWh/year",
+      "status": "validated",
+      "evaluation_enabled": true
+    },
+    "duree_construction": {
+      "type": "scalar",
+      "label_addresses": [
+        "InpC!E56"
+      ],
+      "labels": [
+        "Length of construction period"
+      ],
+      "value_addresses": [
+        "InpC!F56"
+      ],
+      "expected_value": 62.0,
+      "unit": "months",
+      "status": "validated",
+      "evaluation_enabled": true
+    },
+    "duree_concession": {
+      "type": "proxy_scalar",
+      "label_addresses": [
+        "InpC!E78"
+      ],
+      "labels": [
+        "Length of operations"
+      ],
+      "value_addresses": [
+        "InpC!F78"
+      ],
+      "expected_value": 35.0,
+      "unit": "years",
+      "status": "validated_proxy",
+      "evaluation_enabled": false,
+      "note": "The workbook exposes Length of operations, not an explicit 'concession period'. Keep as a business proxy and exclude from strict retrieval evaluation unless ARSEL formally defines this equivalence."
+    },
+    "disponibilite": {
+      "type": "derived_series",
+      "label_addresses": [
+        "InpS!E40"
+      ],
+      "labels": [
+        "Unavailability"
+      ],
+      "source_addresses": [
+        "InpS!J40"
+      ],
+      "expected_value": 0.9,
+      "source_value": 0.1,
+      "transformation": "availability = 1 - unavailability",
+      "unit": "%",
+      "status": "validated_derived",
+      "evaluation_enabled": true,
+      "note": "The workbook stores unavailability. Availability is derived as 1 - 10% = 90%."
+    }
+  }
+}

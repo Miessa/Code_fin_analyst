@@ -1,0 +1,1042 @@
+{
+  "_description": "Référentiel ARSEL enrichi pour l'extraction sémantico-structurelle de modèles financiers Excel. Les champs historiques sont conservés pour compatibilité. Les nouveaux champs décrivent la famille sémantique, le rôle attendu dans le modèle, la structure de valeur, la portée temporelle, les unités, les signaux positifs/négatifs, le résolveur et les validations déterministes.",
+  "_version": "0.5",
+  "entrees": [
+    {
+      "cle": "cout_construction",
+      "categorie": "factuel",
+      "description": "coût total de construction (CAPEX / EPC, hors coûts financiers)",
+      "mots_cles": [
+        "EPC cost",
+        "EPC",
+        "total epc",
+        "total capex",
+        "coût de construction",
+        "construction cost",
+        "total investment cost"
+      ],
+      "plage": [
+        10000,
+        10000000000000
+      ],
+      "unite": "monétaire",
+      "definition": "Somme investie pour bâtir l'ouvrage (génie civil, équipements, EPC), hors coûts de financement.",
+      "exemple": "Ex. pour une centrale hydro : le contrat EPC clé-en-main = 24,6 milliards XAF.",
+      "nature": "montant",
+      "famille_semantique": "capex",
+      "role_metrique": "aggregate",
+      "structure_preferee": [
+        "scalar_aggregate"
+      ],
+      "structure_acceptee": [
+        "decomposition"
+      ],
+      "structures_penalisees": [
+        "time_series",
+        "profile",
+        "selector"
+      ],
+      "portee_temporelle": "project_total",
+      "famille_unite": "currency_amount",
+      "semantique_positive": [
+        "total capex",
+        "construction cost",
+        "epc",
+        "excluding financing costs"
+      ],
+      "semantique_negative": [
+        "financing cost",
+        "drawdown",
+        "s-curve",
+        "anticipated capex",
+        "pre-fc capex",
+        "recovery tariff"
+      ],
+      "resolver": "aggregate_value",
+      "validation": {
+        "preferer_total": true,
+        "dependances_agregees_attendues": true,
+        "rejeter_selecteur": true,
+        "rejeter_serie_si_total_existe": true
+      }
+    },
+    {
+      "cle": "investissement_total",
+      "categorie": "sortie",
+      "description": "investissement total = construction + coûts financiers",
+      "mots_cles": [
+        "investissement",
+        "total investment",
+        "total project cost",
+        "total funding",
+        "uses of funds"
+      ],
+      "plage": [
+        10000,
+        10000000000000
+      ],
+      "unite": "monétaire",
+      "definition": "Coût total du projet = construction + coûts financiers (intérêts intercalaires, commissions).",
+      "exemple": "Ex. 24,6 Mds de construction + 2,8 Mds de coûts financiers = 27,4 Mds XAF.",
+      "nature": "montant",
+      "famille_semantique": "capex",
+      "role_metrique": "aggregate",
+      "structure_preferee": [
+        "scalar_aggregate"
+      ],
+      "structure_acceptee": [
+        "decomposition"
+      ],
+      "structures_penalisees": [
+        "time_series",
+        "profile",
+        "selector"
+      ],
+      "portee_temporelle": "project_total",
+      "famille_unite": "currency_amount",
+      "semantique_positive": [
+        "total project cost",
+        "total investment",
+        "including financing costs",
+        "total funding",
+        "uses of funds"
+      ],
+      "semantique_negative": [
+        "excluding financing costs",
+        "drawdown",
+        "s-curve",
+        "component",
+        "recovery tariff"
+      ],
+      "resolver": "aggregate_value",
+      "validation": {
+        "preferer_total": true,
+        "dependances_agregees_attendues": true,
+        "couts_financiers_attendus": true
+      }
+    },
+    {
+      "cle": "opex_1",
+      "categorie": "factuel",
+      "description": "coûts d'exploitation (OPEX) de la première année",
+      "mots_cles": [
+        "annual o&m",
+        "total operating cost",
+        "opex",
+        "o&m cost",
+        "coût d'exploitation"
+      ],
+      "plage": [
+        100,
+        1000000000000
+      ],
+      "unite": "monétaire/an",
+      "definition": "Coûts annuels d'exploitation et de maintenance la première année (personnel, entretien, assurances).",
+      "exemple": "Ex. 718 millions XAF la première année, ensuite indexés sur l'inflation.",
+      "nature": "montant",
+      "famille_semantique": "opex",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "time_series"
+      ],
+      "structures_penalisees": [
+        "decomposition",
+        "selector"
+      ],
+      "portee_temporelle": "year_1",
+      "famille_unite": "currency_per_year",
+      "semantique_positive": [
+        "year 1",
+        "first year",
+        "annual o&m",
+        "operating cost",
+        "opex"
+      ],
+      "semantique_negative": [
+        "lifetime total",
+        "accrued during operations",
+        "indexation selector",
+        "monthly detail"
+      ],
+      "resolver": "year1_value",
+      "validation": {
+        "preferer_annee_1": true,
+        "rejeter_total_vie_projet": true,
+        "autoriser_serie_si_annee_1_resoluble": true
+      }
+    },
+    {
+      "cle": "inflation_opex",
+      "categorie": "factuel",
+      "description": "taux d'indexation / inflation appliqué à l'OPEX",
+      "mots_cles": [
+        "cameroon cpi",
+        "eur cpi",
+        "us cpi",
+        "cpi %",
+        "inflation rate"
+      ],
+      "plage": [
+        0,
+        0.2
+      ],
+      "unite": "%",
+      "definition": "Taux annuel auquel l'OPEX augmente pour suivre l'inflation.",
+      "exemple": "Ex. 2 % par an : un OPEX de 100 devient 102 l'année suivante.",
+      "nature": "taux",
+      "famille_semantique": "inflation",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "time_series"
+      ],
+      "structure_acceptee": [
+        "scalar",
+        "selector"
+      ],
+      "structures_penalisees": [
+        "decomposition"
+      ],
+      "portee_temporelle": "annual",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "cameroon cpi",
+        "eur cpi",
+        "us cpi",
+        "inflation rate",
+        "cpi %"
+      ],
+      "semantique_negative": [
+        "selector only",
+        "index number without resolved series"
+      ],
+      "resolver": "index_selector_to_series",
+      "validation": {
+        "resoudre_selecteur": true,
+        "serie_de_taux_attendue": true,
+        "rejeter_montants": true
+      }
+    },
+    {
+      "cle": "tarif",
+      "categorie": "decisionnel",
+      "description": "tarif ou prix de vente (capacity charge en EUR/kW/mois, ou PPA en /kWh)",
+      "mots_cles": [
+        "capacity charge",
+        "tarif",
+        "ppa",
+        "tariff",
+        "prix de vente"
+      ],
+      "plage": [
+        0.01,
+        100000
+      ],
+      "unite": "tarifaire",
+      "definition": "Prix auquel l'électricité (ou la capacité) est vendue. Base des revenus du projet.",
+      "exemple": "Ex. PPA à 83,650 XAF/kWh, ou capacity charge à 64 EUR/kW/mois.",
+      "nature": "montant",
+      "famille_semantique": "tariff",
+      "role_metrique": "result",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "time_series"
+      ],
+      "structures_penalisees": [
+        "selector",
+        "decomposition"
+      ],
+      "portee_temporelle": "contract_or_base",
+      "famille_unite": "tariff_rate",
+      "semantique_positive": [
+        "capacity charge",
+        "ppa tariff",
+        "electricity tariff",
+        "selling price"
+      ],
+      "semantique_negative": [
+        "revenue",
+        "turnover",
+        "payment amount",
+        "tariff selector"
+      ],
+      "resolver": "tariff_value_or_profile",
+      "validation": {
+        "unite_tarifaire_obligatoire": true,
+        "autoriser_serie": true,
+        "rejeter_revenu_total": true
+      }
+    },
+    {
+      "cle": "gearing",
+      "categorie": "decisionnel",
+      "description": "part de la dette dans le financement (gearing, dette/total)",
+      "mots_cles": [
+        "gearing",
+        "pondération dette",
+        "debt ratio",
+        "leverage",
+        "debt %"
+      ],
+      "plage": [
+        0,
+        1
+      ],
+      "unite": "%",
+      "definition": "Part de la dette dans le financement total (dette / (dette + fonds propres)).",
+      "exemple": "Ex. gearing de 80 % : 80 % du projet financé par emprunt, 20 % par les actionnaires.",
+      "nature": "taux",
+      "famille_semantique": "capital_structure",
+      "role_metrique": "target",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series",
+        "decomposition"
+      ],
+      "portee_temporelle": "financing_target",
+      "famille_unite": "percentage_ratio",
+      "semantique_positive": [
+        "target leverage",
+        "target gearing",
+        "debt ratio",
+        "max allowed leverage"
+      ],
+      "semantique_negative": [
+        "gearing at end construction",
+        "leverage at cod",
+        "actual gearing"
+      ],
+      "resolver": "scalar_value",
+      "validation": {
+        "ratio_0_1": true,
+        "preferer_target_sur_resultat": true
+      }
+    },
+    {
+      "cle": "taux_dette",
+      "categorie": "factuel",
+      "description": "taux d'intérêt de la dette senior",
+      "mots_cles": [
+        "taux dette",
+        "interest rate",
+        "cost of debt",
+        "senior debt rate",
+        "taux dette sénior"
+      ],
+      "plage": [
+        0,
+        0.3
+      ],
+      "unite": "%",
+      "definition": "Taux d'intérêt payé sur la dette senior (le prêt principal).",
+      "exemple": "Ex. 5,50 % par an sur la dette senior.",
+      "nature": "taux",
+      "famille_semantique": "debt",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "decomposition"
+      ],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "annual_rate",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "senior debt rate",
+        "interest rate",
+        "cost of debt"
+      ],
+      "semantique_negative": [
+        "interest expense",
+        "interest amount",
+        "swap rate only"
+      ],
+      "resolver": "scalar_or_debt_tranche",
+      "validation": {
+        "rejeter_montants_interets": true
+      }
+    },
+    {
+      "cle": "duree_dette",
+      "categorie": "factuel",
+      "description": "durée / maturité du prêt senior",
+      "mots_cles": [
+        "durée dette",
+        "loan tenor",
+        "debt tenor",
+        "maturity"
+      ],
+      "plage": [
+        1,
+        40
+      ],
+      "unite": "ans",
+      "definition": "Durée sur laquelle le prêt senior est remboursé.",
+      "exemple": "Ex. 18 ans de remboursement.",
+      "nature": "montant",
+      "famille_semantique": "debt",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "loan_tenor",
+      "famille_unite": "duration_years",
+      "semantique_positive": [
+        "loan tenor",
+        "debt tenor",
+        "maturity"
+      ],
+      "semantique_negative": [
+        "remaining maturity by period"
+      ],
+      "resolver": "duration_value",
+      "validation": {
+        "convertir_mois_en_ans_si_necessaire": true
+      }
+    },
+    {
+      "cle": "dscr_cible",
+      "categorie": "decisionnel",
+      "description": "ratio de couverture du service de la dette (DSCR) cible",
+      "mots_cles": [
+        "dscr",
+        "debt service coverage",
+        "couverture de la dette"
+      ],
+      "plage": [
+        1,
+        3
+      ],
+      "unite": "x",
+      "definition": "Ratio de couverture : trésorerie disponible / service de la dette. Mesure la marge de sécurité des prêteurs.",
+      "exemple": "Ex. DSCR de 1,4x : le projet génère 1,4 fois ce qu'il doit rembourser.",
+      "nature": "montant",
+      "famille_semantique": "debt_coverage",
+      "role_metrique": "target",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "financing_target",
+      "famille_unite": "multiple_ratio",
+      "semantique_positive": [
+        "target dscr",
+        "minimum dscr",
+        "debt service coverage"
+      ],
+      "semantique_negative": [
+        "actual dscr",
+        "historical dscr",
+        "average dscr"
+      ],
+      "resolver": "scalar_value",
+      "validation": {
+        "preferer_target_sur_resultat": true
+      }
+    },
+    {
+      "cle": "is_taux",
+      "categorie": "factuel",
+      "description": "taux d'impôt sur les sociétés (IS)",
+      "mots_cles": [
+        "taux is",
+        "taux d'is",
+        "corporate income tax",
+        "impôt sur les sociétés",
+        "cit rate"
+      ],
+      "plage": [
+        0,
+        0.6
+      ],
+      "unite": "%",
+      "definition": "Taux d'impôt sur les bénéfices des sociétés.",
+      "exemple": "Ex. 33 % au Cameroun (CGI).",
+      "nature": "taux",
+      "famille_semantique": "tax",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "time_series"
+      ],
+      "structures_penalisees": [
+        "selector"
+      ],
+      "portee_temporelle": "tax_regime",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "corporate income tax",
+        "cit rate",
+        "income tax rate"
+      ],
+      "semantique_negative": [
+        "income tax expense",
+        "tax amount"
+      ],
+      "resolver": "rate_value",
+      "validation": {
+        "rejeter_montants_impot": true
+      }
+    },
+    {
+      "cle": "tva",
+      "categorie": "factuel",
+      "description": "taux de TVA applicable",
+      "mots_cles": [
+        "taux de tva",
+        "taux tva",
+        "vat rate",
+        "vat on construction cost"
+      ],
+      "plage": [
+        0,
+        0.3
+      ],
+      "unite": "%",
+      "definition": "Taux de taxe sur la valeur ajoutée applicable.",
+      "exemple": "Ex. 19,25 % au Cameroun.",
+      "nature": "taux",
+      "famille_semantique": "tax",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "tax_regime",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "vat rate",
+        "taux tva",
+        "vat on construction cost",
+        "construction cost vat"
+      ],
+      "semantique_negative": [
+        "vat amount",
+        "vat payable",
+        "vat receivable"
+      ],
+      "resolver": "rate_value",
+      "validation": {
+        "rejeter_montants_tva": true
+      }
+    },
+    {
+      "cle": "wht",
+      "categorie": "factuel",
+      "description": "retenue à la source (withholding tax)",
+      "mots_cles": [
+        "retenue à la source",
+        "withholding",
+        "wht"
+      ],
+      "plage": [
+        0,
+        0.3
+      ],
+      "unite": "%",
+      "definition": "Retenue à la source prélevée sur certains paiements (dividendes, intérêts, prestations).",
+      "exemple": "Ex. 10 % de retenue à la source.",
+      "nature": "taux",
+      "famille_semantique": "tax",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "decomposition"
+      ],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "tax_regime",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "withholding tax",
+        "wht rate"
+      ],
+      "semantique_negative": [
+        "withholding amount",
+        "wht payment"
+      ],
+      "resolver": "rate_value",
+      "validation": {
+        "rejeter_montants_retenue": true
+      }
+    },
+    {
+      "cle": "amortissement_duree",
+      "categorie": "decisionnel",
+      "description": "durée d'amortissement comptable",
+      "mots_cles": [
+        "durée d'amortissement",
+        "depreciation period",
+        "useful life",
+        "amortissement linéaire"
+      ],
+      "plage": [
+        5,
+        60
+      ],
+      "unite": "ans",
+      "definition": "Nombre d'années sur lesquelles la valeur des actifs est amortie comptablement.",
+      "exemple": "Ex. amortissement linéaire sur 20 ans.",
+      "nature": "montant",
+      "famille_semantique": "depreciation",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "asset_life",
+      "famille_unite": "duration_years",
+      "semantique_positive": [
+        "depreciation period",
+        "useful life"
+      ],
+      "semantique_negative": [
+        "depreciation expense",
+        "accumulated depreciation"
+      ],
+      "resolver": "duration_value",
+      "validation": {
+        "rejeter_montants_amortissement": true
+      }
+    },
+    {
+      "cle": "tri_projet",
+      "categorie": "sortie",
+      "description": "TRI du projet après impôt",
+      "mots_cles": [
+        "tri projet",
+        "project irr",
+        "tri après impôt",
+        "irr"
+      ],
+      "plage": [
+        0,
+        0.4
+      ],
+      "unite": "%",
+      "definition": "Taux de rentabilité interne du projet après impôt : le rendement global de l'investissement.",
+      "exemple": "Ex. TRI projet de 7,49 % sur 20 ans.",
+      "nature": "taux",
+      "famille_semantique": "irr",
+      "role_metrique": "result",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series",
+        "selector"
+      ],
+      "portee_temporelle": "project_lifetime",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "project irr",
+        "post tax irr",
+        "project return"
+      ],
+      "semantique_negative": [
+        "target irr",
+        "equity irr",
+        "sponsor irr"
+      ],
+      "resolver": "scalar_result",
+      "validation": {
+        "preferer_resultat_sur_target": true,
+        "rejeter_equity_irr": true
+      }
+    },
+    {
+      "cle": "tri_fonds_propres",
+      "categorie": "sortie",
+      "description": "TRI des fonds propres (equity IRR)",
+      "mots_cles": [
+        "tri fonds propres",
+        "equity irr",
+        "tri fp"
+      ],
+      "plage": [
+        0,
+        0.6
+      ],
+      "unite": "%",
+      "definition": "Taux de rentabilité pour les seuls actionnaires (après remboursement de la dette).",
+      "exemple": "Ex. TRI fonds propres de 10,24 %, supérieur au TRI projet grâce à l'effet de levier.",
+      "nature": "taux",
+      "famille_semantique": "irr",
+      "role_metrique": "result",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "decomposition"
+      ],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "equity_lifetime",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "equity irr",
+        "sponsor irr",
+        "shareholder irr"
+      ],
+      "semantique_negative": [
+        "project irr",
+        "target irr"
+      ],
+      "resolver": "scalar_result",
+      "validation": {
+        "rejeter_project_irr": true
+      }
+    },
+    {
+      "cle": "wacc",
+      "categorie": "sortie",
+      "description": "coût moyen pondéré du capital (WACC)",
+      "mots_cles": [
+        "wacc",
+        "coût moyen pondéré"
+      ],
+      "plage": [
+        0,
+        0.3
+      ],
+      "unite": "%",
+      "definition": "Coût moyen pondéré du capital : moyenne des coûts de la dette et des fonds propres.",
+      "exemple": "Ex. WACC de 6,45 %, entre le taux de dette (5,5 %) et le rendement exigé des fonds propres.",
+      "nature": "taux",
+      "famille_semantique": "discount_rate",
+      "role_metrique": "result",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "valuation",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "wacc",
+        "weighted average cost of capital"
+      ],
+      "semantique_negative": [
+        "cost of debt",
+        "cost of equity only"
+      ],
+      "resolver": "scalar_result",
+      "validation": {}
+    },
+    {
+      "cle": "taux_actualisation",
+      "categorie": "factuel",
+      "description": "taux d'actualisation utilisé (souverain / de référence)",
+      "mots_cles": [
+        "taux d'actualisation",
+        "discount rate",
+        "actualisation"
+      ],
+      "plage": [
+        0,
+        0.3
+      ],
+      "unite": "%",
+      "definition": "Taux servant à ramener des flux futurs à leur valeur d'aujourd'hui (pour la VAN).",
+      "exemple": "Ex. taux souverain de 8 %.",
+      "nature": "taux",
+      "famille_semantique": "discount_rate",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "valuation",
+      "famille_unite": "percentage_rate",
+      "semantique_positive": [
+        "discount rate",
+        "reference rate",
+        "sovereign rate"
+      ],
+      "semantique_negative": [
+        "wacc result",
+        "discount factor"
+      ],
+      "resolver": "rate_value",
+      "validation": {
+        "rejeter_facteur_actualisation": true
+      }
+    },
+    {
+      "cle": "puissance",
+      "categorie": "factuel",
+      "description": "puissance installée du projet",
+      "mots_cles": [
+        "puissance",
+        "installed capacity",
+        "capacity mw",
+        "mwp"
+      ],
+      "plage": [
+        1,
+        2000
+      ],
+      "unite": "MW",
+      "definition": "Puissance électrique installée de la centrale.",
+      "exemple": "Ex. 30 MWp pour un projet solaire, ~300 MW pour un grand hydro.",
+      "nature": "montant",
+      "famille_semantique": "technical_capacity",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "installed",
+      "famille_unite": "power",
+      "semantique_positive": [
+        "installed capacity",
+        "plant capacity",
+        "capacity mw"
+      ],
+      "semantique_negative": [
+        "available capacity by month",
+        "capacity charge"
+      ],
+      "resolver": "scalar_value",
+      "validation": {
+        "rejeter_tarif_capacity_charge": true
+      }
+    },
+    {
+      "cle": "productible",
+      "categorie": "factuel",
+      "description": "productible ou production annuelle d'énergie",
+      "mots_cles": [
+        "productible",
+        "energy",
+        "gwh",
+        "mwh",
+        "generation",
+        "production annuelle"
+      ],
+      "plage": [
+        1,
+        100000000
+      ],
+      "unite": "énergie",
+      "definition": "Énergie produite, souvent rapportée à la puissance (MWh par MWp) ou en total annuel.",
+      "exemple": "Ex. 1 563 MWh/MWp, soit 45 951 MWh annuels après pertes.",
+      "nature": "montant",
+      "famille_semantique": "generation",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "time_series"
+      ],
+      "structures_penalisees": [
+        "decomposition"
+      ],
+      "portee_temporelle": "year_1",
+      "famille_unite": "energy",
+      "semantique_positive": [
+        "year 1 generation",
+        "annual generation",
+        "electricity generation"
+      ],
+      "semantique_negative": [
+        "lifetime generation",
+        "generation profile if year 1 scalar exists"
+      ],
+      "resolver": "year1_generation",
+      "validation": {
+        "preferer_annee_1": true,
+        "autoriser_serie_si_agregation_possible": true
+      }
+    },
+    {
+      "cle": "duree_construction",
+      "categorie": "factuel",
+      "description": "durée de la période de construction",
+      "mots_cles": [
+        "durée de construction",
+        "construction duration",
+        "construction period",
+        "months"
+      ],
+      "plage": [
+        1,
+        120
+      ],
+      "unite": "mois",
+      "definition": "Durée de la phase de chantier avant mise en service.",
+      "exemple": "Ex. 12 mois pour un solaire, 60 mois pour un grand barrage.",
+      "nature": "montant",
+      "famille_semantique": "project_timeline",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "construction",
+      "famille_unite": "duration_months",
+      "semantique_positive": [
+        "construction duration",
+        "construction period"
+      ],
+      "semantique_negative": [
+        "construction date",
+        "construction profile"
+      ],
+      "resolver": "duration_value",
+      "validation": {}
+    },
+    {
+      "cle": "duree_concession",
+      "categorie": "factuel",
+      "description": "durée de la concession / du contrat",
+      "mots_cles": [
+        "durée de la concession",
+        "concession",
+        "project life",
+        "durée du contrat"
+      ],
+      "plage": [
+        5,
+        60
+      ],
+      "unite": "ans",
+      "definition": "Durée du contrat de concession / d'exploitation accordée au promoteur.",
+      "exemple": "Ex. concession de 25 ans.",
+      "nature": "montant",
+      "famille_semantique": "project_timeline",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [],
+      "structures_penalisees": [
+        "time_series"
+      ],
+      "portee_temporelle": "concession",
+      "famille_unite": "duration_years",
+      "semantique_positive": [
+        "concession period",
+        "project life",
+        "contract term"
+      ],
+      "semantique_negative": [
+        "remaining concession by period"
+      ],
+      "resolver": "duration_value",
+      "validation": {}
+    },
+    {
+      "cle": "disponibilite",
+      "categorie": "factuel",
+      "description": "taux de disponibilité de la centrale",
+      "mots_cles": [
+        "disponibilité",
+        "availability",
+        "unavailability",
+        "plant unavailability",
+        "load factor",
+        "facteur de charge"
+      ],
+      "plage": [
+        0,
+        1
+      ],
+      "unite": "%",
+      "definition": "Fraction du temps où la centrale peut produire (hors pannes et maintenance).",
+      "exemple": "Ex. 98 % de disponibilité.",
+      "nature": "taux",
+      "famille_semantique": "operating_performance",
+      "role_metrique": "input",
+      "structure_preferee": [
+        "scalar"
+      ],
+      "structure_acceptee": [
+        "time_series"
+      ],
+      "structures_penalisees": [],
+      "portee_temporelle": "operations",
+      "famille_unite": "percentage_ratio",
+      "semantique_positive": [
+        "availability",
+        "plant availability",
+        "unavailability",
+        "plant unavailability"
+      ],
+      "semantique_negative": [
+        "load factor",
+        "capacity factor"
+      ],
+      "resolver": "rate_or_profile",
+      "validation": {
+        "ne_pas_confondre_avec_facteur_charge": true,
+        "autoriser_inverse_unavailability": true
+      }
+    }
+  ],
+  "_schema_extraction": {
+    "famille_semantique": "Concept économique principal : capex, opex, inflation, tariff, debt, irr, etc.",
+    "role_metrique": [
+      "input",
+      "target",
+      "result",
+      "aggregate",
+      "profile"
+    ],
+    "structure_preferee": [
+      "scalar",
+      "scalar_aggregate",
+      "time_series",
+      "decomposition",
+      "selector"
+    ],
+    "structure_acceptee": "Structures admissibles mais moins prioritaires.",
+    "structures_penalisees": "Structures proches sémantiquement mais non recherchées.",
+    "portee_temporelle": "Contexte temporel attendu : year_1, COD, annual, lifetime, operations, etc.",
+    "famille_unite": "Famille d'unité attendue pour filtrer les faux positifs.",
+    "resolver": "Module déterministe chargé de transformer le candidat en valeur exploitable.",
+    "validation": "Contrôles de cohérence à appliquer après sélection."
+  }
+}

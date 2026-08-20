@@ -1,0 +1,12 @@
+{
+  "technology": "hydropower",
+  "geography": "Cameroon",
+  "currency": "EUR",
+  "benchmark_currency": "USD",
+  "monetary_scale": 1000,
+  "usd_per_currency_unit": null,
+  "price_year": 2024,
+  "data_year": 2024,
+  "power_unit": "MW",
+  "productible_unit": "MWh/year"
+}

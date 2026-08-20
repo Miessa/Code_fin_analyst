@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.env
+.env.*
+*.key
+
+# Generated reports and extraction workspaces
+# Résultats générés
+phase2_outputs/
+outputs/
+benchmark_hybrid/work/
+
+# Office lock files
+~$*.docx
+~$*.xlsx
+~$*.xlsm
+
+# Configuration locale
+phase2/phase2_context.json
+
+
+
+

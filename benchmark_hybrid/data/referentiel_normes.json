@@ -1,0 +1,254 @@
+{
+  "_schema_version": "1.0.0",
+  "_updated": "2026-08-20",
+  "policy": "Observations reproduce source facts. Only separately approved comparison rules may affect an ARSEL opinion.",
+  "sources": [
+    {
+      "source_id": "irena_rpgc_2024",
+      "organization": "IRENA",
+      "title": "Renewable Power Generation Costs in 2024",
+      "publication_year": 2025,
+      "data_year": 2024,
+      "url": "https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2025/Jul/IRENA_TEC_RPGC_in_2024_2025.pdf",
+      "retrieved_at": "2026-08-20",
+      "source_type": "sector_dataset_report",
+      "review_status": "verified_primary_source"
+    },
+    {
+      "source_id": "iea_cost_capital_observatory_2022",
+      "organization": "IEA",
+      "title": "Cost of Capital Observatory — Tools and analysis",
+      "publication_year": 2022,
+      "data_year": 2021,
+      "url": "https://www.iea.org/reports/cost-of-capital-observatory/tools-and-analysis",
+      "retrieved_at": "2026-08-20",
+      "source_type": "sector_analysis",
+      "review_status": "verified_primary_source"
+    },
+    {
+      "source_id": "afdb_sahofika_hydro_2020",
+      "organization": "African Development Bank",
+      "title": "Sahofika 192 MW Hydropower Project — Project Appraisal Report",
+      "publication_year": 2020,
+      "url": "https://www.afdb.org/sites/default/files/documents/projects-and-operations/madagascar_-_sahofika_192mw_hydropower_project_partial_risk_guarantee_-_project_appraisal_report.pdf",
+      "retrieved_at": "2026-08-20",
+      "source_type": "project_appraisal",
+      "review_status": "verified_primary_source"
+    },
+    {
+      "source_id": "afdb_sokode_solar_2026",
+      "organization": "African Development Bank",
+      "title": "Sokodé 42 MWac Solar PV Project — Project Summary Note",
+      "publication_year": 2026,
+      "url": "https://www.afdb.org/sites/default/files/documents/projects-and-operations/togo-sokode_42mwac_solar_pv_project_psn.pdf",
+      "retrieved_at": "2026-08-20",
+      "source_type": "project_appraisal",
+      "review_status": "verified_primary_source"
+    },
+    {
+      "source_id": "afdb_yeleen_burkina_2026",
+      "organization": "African Development Bank",
+      "title": "Desert to Power — Yeleen Rural Electrification Project",
+      "publication_year": 2026,
+      "url": "https://www.afdb.org/sites/default/files/documents/projects-and-operations/burkina_faso_desert_to_power_initiative_yeleen_rural_electrification_project.pdf",
+      "retrieved_at": "2026-08-20",
+      "source_type": "project_appraisal",
+      "review_status": "verified_primary_source"
+    },
+    {
+      "source_id": "world_bank_sif_2016",
+      "organization": "World Bank",
+      "title": "Strategic Investment Funds — Policy Research Working Paper 7851",
+      "publication_year": 2016,
+      "url": "https://documents1.worldbank.org/curated/en/235311475681523659/pdf/WPS7851.pdf",
+      "retrieved_at": "2026-08-20",
+      "source_type": "policy_research",
+      "review_status": "verified_primary_source"
+    }
+  ],
+  "projects": [
+    {
+      "project_id": "sahofika_hydropower_madagascar",
+      "project_name": "Sahofika Hydropower Project",
+      "source_id": "afdb_sahofika_hydro_2020",
+      "country": "Madagascar",
+      "region": "Sub-Saharan Africa",
+      "technology": "hydropower",
+      "project_type": "greenfield IPP",
+      "metrics": {
+        "installed_capacity": {
+          "value": 192,
+          "unit": "MW net",
+          "observation_id": "afdb_sahofika_capacity"
+        },
+        "equity_irr": {
+          "value": 0.18,
+          "unit": "nominal ratio",
+          "statistic": "project maximum",
+          "observation_id": "afdb_sahofika_equity_irr"
+        },
+        "minimum_dscr": {
+          "value": 1.47,
+          "unit": "x",
+          "statistic": "base case",
+          "observation_id": "afdb_sahofika_min_dscr"
+        },
+        "minimum_dscr_capex_plus_10_percent": {
+          "value": 1.41,
+          "unit": "x",
+          "observation_id": "afdb_sahofika_dscr_capex_plus10"
+        },
+        "minimum_dscr_capex_plus_20_percent": {
+          "value": 1.36,
+          "unit": "x",
+          "observation_id": "afdb_sahofika_dscr_capex_plus20"
+        },
+        "minimum_dscr_opex_plus_20_percent": {
+          "value": 1.45,
+          "unit": "x",
+          "observation_id": "afdb_sahofika_dscr_opex_plus20"
+        }
+      },
+      "unavailable_metrics": [
+        "published total investment cost",
+        "published O&M amount",
+        "machine-readable PPA tariff",
+        "debt interest rate",
+        "debt maturity"
+      ],
+      "benchmark_status": "peer_project_evidence"
+    },
+    {
+      "project_id": "sokode_solar_togo",
+      "project_name": "Sokodé Solar PV Project",
+      "source_id": "afdb_sokode_solar_2026",
+      "country": "Togo",
+      "region": "West Africa",
+      "technology": "solar_pv",
+      "project_type": "IPP with take-or-pay PPA",
+      "metrics": {
+        "installed_capacity": {
+          "value": 42,
+          "unit": "MWac",
+          "observation_id": "afdb_sokode_capacity"
+        },
+        "ppa_tariff": {
+          "value": 48.8,
+          "unit": "FCFA/kWh",
+          "indexation": "post-COD escalation mechanism",
+          "observation_id": "afdb_sokode_tariff"
+        },
+        "minimum_dscr": {
+          "value": 1.2,
+          "unit": "x",
+          "statistic": "P90 base case",
+          "observation_id": "afdb_sokode_min_dscr"
+        },
+        "equity_irr": {
+          "value": 0.135,
+          "unit": "ratio",
+          "statistic": "P50 project case",
+          "observation_id": "afdb_sokode_equity_irr"
+        },
+        "ordinary_loan_margin": {
+          "value": 300,
+          "unit": "basis points above EURIBOR",
+          "observation_id": "afdb_sokode_ordinary_loan_margin"
+        },
+        "concession_duration": {
+          "value": 25,
+          "unit": "year",
+          "observation_id": "afdb_sokode_concession"
+        }
+      },
+      "unavailable_metrics": [
+        "published total investment cost",
+        "published O&M amount",
+        "project FIRR",
+        "debt maturity"
+      ],
+      "benchmark_status": "peer_project_evidence"
+    },
+    {
+      "project_id": "yeleen_solar_burkina_faso",
+      "project_name": "Desert to Power — Yeleen Rural Electrification Project",
+      "source_id": "afdb_yeleen_burkina_2026",
+      "country": "Burkina Faso",
+      "region": "West Africa",
+      "technology": "solar_pv",
+      "project_type": "public project with private participation",
+      "metrics": {
+        "capped_tariff": {
+          "value": 0.12,
+          "unit": "EUR/kWh",
+          "equivalent_value": 68,
+          "equivalent_unit": "XOF/kWh",
+          "observation_id": "afdb_yeleen_tariff"
+        },
+        "equity_irr": {
+          "value": 0.162,
+          "unit": "ratio",
+          "observation_id": "afdb_yeleen_equity_irr"
+        },
+        "project_firr": {
+          "value": 0.066,
+          "unit": "ratio",
+          "observation_id": "afdb_yeleen_firr"
+        }
+      },
+      "unavailable_metrics": [
+        "published total investment cost",
+        "published O&M amount",
+        "minimum DSCR",
+        "debt interest rate",
+        "debt maturity"
+      ],
+      "benchmark_status": "peer_project_evidence"
+    }
+  ],
+  "observations": [
+    {"observation_id":"irena_hydro_tic_2024","source_id":"irena_rpgc_2024","metric":"total_installed_cost","technology":"hydropower","geography":"global","statistic":"weighted_average","value":2267,"unit":"2024 USD/kW","perimeter":"newly commissioned; excludes pumped storage","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_hydro_capacity_factor_2024","source_id":"irena_rpgc_2024","metric":"capacity_factor","technology":"hydropower","geography":"global","statistic":"weighted_average","value":0.48,"unit":"ratio","perimeter":"newly commissioned; excludes pumped storage","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_hydro_lcoe_2024","source_id":"irena_rpgc_2024","metric":"lcoe","technology":"hydropower","geography":"global","statistic":"weighted_average","value":0.057,"unit":"2024 USD/kWh","perimeter":"newly commissioned; excludes pumped storage","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_hydro_om_share_range","source_id":"irena_rpgc_2024","metric":"om_cost_as_share_of_investment","technology":"hydropower","geography":"global","statistic":"historical_project_range","low":0.01,"high":0.03,"unit":"ratio/year","sample_size":25,"sample_period":"2010-2016","perimeter":"annual O&M including periodic refurbishment allowance","source_location":"Hydropower chapter, O&M costs","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_solar_tic_2024","source_id":"irena_rpgc_2024","metric":"total_installed_cost","technology":"solar_pv","geography":"global","statistic":"weighted_average","value":691,"unit":"2024 USD/kW","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_solar_capacity_factor_2024","source_id":"irena_rpgc_2024","metric":"capacity_factor","technology":"solar_pv","geography":"global","statistic":"weighted_average","value":0.17,"unit":"ratio","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_solar_lcoe_2024","source_id":"irena_rpgc_2024","metric":"lcoe","technology":"solar_pv","geography":"global","statistic":"weighted_average","value":0.043,"unit":"2024 USD/kWh","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_solar_om_2024","source_id":"irena_rpgc_2024","metric":"fixed_om_cost","technology":"solar_pv","geography":"global","statistic":"weighted_average","value":13.1,"unit":"2024 USD/kW/year","perimeter":"estimated all-in O&M including insurance and asset management","source_location":"Solar PV chapter, O&M costs","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_onshore_wind_tic_2024","source_id":"irena_rpgc_2024","metric":"total_installed_cost","technology":"onshore_wind","geography":"global","statistic":"weighted_average","value":1041,"unit":"2024 USD/kW","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_onshore_wind_capacity_factor_2024","source_id":"irena_rpgc_2024","metric":"capacity_factor","technology":"onshore_wind","geography":"global","statistic":"weighted_average","value":0.34,"unit":"ratio","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+    {"observation_id":"irena_onshore_wind_lcoe_2024","source_id":"irena_rpgc_2024","metric":"lcoe","technology":"onshore_wind","geography":"global","statistic":"weighted_average","value":0.034,"unit":"2024 USD/kWh","source_location":"Table S1","observation_type":"sector_statistic","approval_status":"verified"},
+
+    {"observation_id":"iea_sa_solar_capital_cost_2021","source_id":"iea_cost_capital_observatory_2022","metric":"capital_cost","technology":"solar_pv","geography":"South Africa","statistic":"representative_project","value":1070,"unit":"2021 USD/kW","source_location":"Utility-scale solar PV country table","observation_type":"sector_reference_point","approval_status":"verified"},
+    {"observation_id":"iea_sa_solar_capacity_factor_2021","source_id":"iea_cost_capital_observatory_2022","metric":"capacity_factor","technology":"solar_pv","geography":"South Africa","statistic":"representative_project","value":0.18,"unit":"ratio","source_location":"Utility-scale solar PV country table","observation_type":"sector_reference_point","approval_status":"verified"},
+    {"observation_id":"iea_sa_solar_cost_capital_nominal_2021","source_id":"iea_cost_capital_observatory_2022","metric":"cost_of_capital","technology":"solar_pv","geography":"South Africa","statistic":"range_midpoint","value":0.10,"unit":"nominal post-tax ratio","source_location":"Utility-scale solar PV country table","observation_type":"sector_reference_point","approval_status":"verified"},
+    {"observation_id":"iea_sa_solar_lcoe_2021","source_id":"iea_cost_capital_observatory_2022","metric":"lcoe","technology":"solar_pv","geography":"South Africa","statistic":"representative_project","value":68,"unit":"2021 USD/MWh","source_location":"Utility-scale solar PV country table","observation_type":"sector_reference_point","approval_status":"verified"},
+
+    {"observation_id":"afdb_sahofika_capacity","source_id":"afdb_sahofika_hydro_2020","metric":"installed_capacity","technology":"hydropower","geography":"Madagascar","statistic":"project_case","value":192,"unit":"MW net","source_location":"Project description","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sahofika_equity_irr","source_id":"afdb_sahofika_hydro_2020","metric":"equity_irr","technology":"hydropower","geography":"Madagascar","statistic":"project_maximum","value":0.18,"unit":"nominal ratio","source_location":"Section 3.2.1","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sahofika_min_dscr","source_id":"afdb_sahofika_hydro_2020","metric":"minimum_dscr","technology":"hydropower","geography":"Madagascar","statistic":"base_case","value":1.47,"unit":"x","source_location":"Table 1 and Section 3.2.1","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sahofika_dscr_capex_plus10","source_id":"afdb_sahofika_hydro_2020","metric":"minimum_dscr","technology":"hydropower","geography":"Madagascar","statistic":"sensitivity_case","value":1.41,"unit":"x","scenario":"investment cost +10%","source_location":"Table 1","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sahofika_dscr_capex_plus20","source_id":"afdb_sahofika_hydro_2020","metric":"minimum_dscr","technology":"hydropower","geography":"Madagascar","statistic":"sensitivity_case","value":1.36,"unit":"x","scenario":"investment cost +20%","source_location":"Table 1","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sahofika_dscr_opex_plus20","source_id":"afdb_sahofika_hydro_2020","metric":"minimum_dscr","technology":"hydropower","geography":"Madagascar","statistic":"sensitivity_case","value":1.45,"unit":"x","scenario":"OPEX +20%","source_location":"Table 1","observation_type":"peer_project","approval_status":"verified"},
+
+    {"observation_id":"afdb_sokode_capacity","source_id":"afdb_sokode_solar_2026","metric":"installed_capacity","technology":"solar_pv","geography":"Togo","statistic":"project_case","value":42,"unit":"MWac","source_location":"Project summary","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sokode_tariff","source_id":"afdb_sokode_solar_2026","metric":"ppa_tariff","technology":"solar_pv","geography":"Togo","statistic":"indicative_project_case","value":48.8,"unit":"FCFA/kWh","indexation":"post-COD escalation mechanism","source_location":"Implementation arrangements","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sokode_min_dscr","source_id":"afdb_sokode_solar_2026","metric":"minimum_dscr","technology":"solar_pv","geography":"Togo","statistic":"P90 base case","value":1.20,"unit":"x","source_location":"Project summary","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sokode_equity_irr","source_id":"afdb_sokode_solar_2026","metric":"equity_irr","technology":"solar_pv","geography":"Togo","statistic":"P50 project case","value":0.135,"unit":"ratio","source_location":"Project summary","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sokode_ordinary_loan_margin","source_id":"afdb_sokode_solar_2026","metric":"debt_margin","technology":"solar_pv","geography":"Togo","statistic":"proposed_terms","value":300,"unit":"basis_points_above_EURIBOR","source_location":"Project summary","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_sokode_concession","source_id":"afdb_sokode_solar_2026","metric":"concession_duration","technology":"solar_pv","geography":"Togo","statistic":"project_case","value":25,"unit":"year","source_location":"Project summary","observation_type":"peer_project","approval_status":"verified"},
+
+    {"observation_id":"afdb_yeleen_tariff","source_id":"afdb_yeleen_burkina_2026","metric":"tariff","technology":"solar_pv","geography":"Burkina Faso","statistic":"capped_project_case","value":0.12,"unit":"EUR/kWh","equivalent_value":68,"equivalent_unit":"XOF/kWh","source_location":"Financial performance section","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_yeleen_equity_irr","source_id":"afdb_yeleen_burkina_2026","metric":"equity_irr","technology":"solar_pv","geography":"Burkina Faso","statistic":"project_case","value":0.162,"unit":"ratio","source_location":"Financial performance section","observation_type":"peer_project","approval_status":"verified"},
+    {"observation_id":"afdb_yeleen_firr","source_id":"afdb_yeleen_burkina_2026","metric":"project_firr","technology":"solar_pv","geography":"Burkina Faso","statistic":"project_case","value":0.066,"unit":"ratio","source_location":"Financial performance section","observation_type":"peer_project","approval_status":"verified"},
+
+    {"observation_id":"world_bank_aref_equity_share","source_id":"world_bank_sif_2016","metric":"equity_financing_share","technology":"renewable_mixed","geography":"Sub-Saharan Africa","statistic":"fund_investment_policy","low":0.30,"high":0.50,"unit":"ratio","source_location":"Appendix A, AREF profile","observation_type":"financing_instrument_example","approval_status":"verified"},
+    {"observation_id":"world_bank_aref_investment_size","source_id":"world_bank_sif_2016","metric":"fund_investment_size","technology":"renewable_mixed","geography":"Sub-Saharan Africa","statistic":"fund_investment_policy","low":10,"high":30,"unit":"USD million","source_location":"Appendix A, AREF profile","observation_type":"financing_instrument_example","approval_status":"verified"}
+  ],
+  "comparison_rules": [
+    {"rule_id":"hydro_capacity_factor_irena_2024","project_metric":"capacity_factor","observation_id":"irena_hydro_capacity_factor_2024","comparison_type":"reference_point","interpretation":"context only, not a regulatory threshold","approval_status":"approved"},
+    {"rule_id":"hydro_om_share_irena","project_metric":"opex_to_capex","observation_id":"irena_hydro_om_share_range","comparison_type":"range","interpretation":"historical sector range; confirm O&M perimeter","approval_status":"approved"},
+    {"rule_id":"hydro_equity_irr_peer_sahofika","project_metric":"tri_fonds_propres","observation_id":"afdb_sahofika_equity_irr","comparison_type":"peer_project_point","interpretation":"peer evidence only; not a norm","approval_status":"pending_arsel"},
+    {"rule_id":"hydro_dscr_peer_sahofika","project_metric":"dscr_cible","observation_id":"afdb_sahofika_min_dscr","comparison_type":"peer_project_point","interpretation":"minimum DSCR versus target DSCR are not identical concepts","approval_status":"pending_arsel"}
+  ]
+}

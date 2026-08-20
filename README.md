@@ -1,75 +1,56 @@
-# Système d'analyse financière ARSEL
+# ARSEL Financial Analyst
 
-Outil d'aide à l'analyse financière des modèles de projets soumis à ARSEL.
-Il **extrait** les hypothèses et métriques d'un modèle de promoteur, en
-**s'adaptant** à la façon dont chaque promoteur structure ses données, et
-laisse l'**analyste valider** avant tout enregistrement.
+Le projet est organisé en deux pipelines :
 
-Ce n'est PAS un outil d'audit/reconstruction du modèle : il ne recalcule pas
-les formules du promoteur. Il lit, structure et restitue — pour juger le projet.
+1. la Phase 1 extrait et fait valider les métriques du modèle Excel ;
+2. la Phase 2 normalise ces métriques, calcule les indicateurs et produit une analyse comparative.
 
-## Principe directeur
+## Commandes principales
 
-**Le LLM pointe, le code lit.**
-- le LLM (Gemini) ne voit que des libellés + valeurs voisines et ne renvoie
-  qu'une **adresse** de cellule ;
-- le **code** détecte la structure de cette cellule et lit la ou les valeurs ;
-- l'**analyste** valide.
-Aucune valeur numérique ne transite par le LLM ; tout chiffre est lu par le
-code à une adresse vérifiable.
+```powershell
+python arsel_analyse.py "C:\chemin\modele.xlsm"
+python run_phase2.py hypotheses_validees.json
+```
 
-## Structure adaptative — 4 primitives
+La seconde commande produit les trois formats suivants dans `outputs/phase2/` :
 
-Le système ne suppose aucune structure fixe. Pour chaque métrique, il détecte
-à l'exécution quelle(s) **primitive(s)** le promoteur a utilisée(s) :
+- `analyse_financiere_phase2.json`
+- `analyse_financiere_phase2.md`
+- `analyse_financiere_phase2.docx`
 
-| primitive       | exemple                                   |
-|-----------------|-------------------------------------------|
-| valeur simple   | OPEX = 718 M                              |
-| sélection       | sélecteur d'indice (1=EUR, 2=Cameroun…)   |
-| série temporelle| courbe d'inflation sur 50 ans             |
-| décomposition   | CAPEX = 9 composantes + total             |
+## Organisation
 
-Elles se **composent** : un CAPEX décomposé dont une composante a un sélecteur
-pointant vers une série est détecté comme les trois à la fois.
-Les séries temporelles sont restituées en **paliers datés** (pas de moyenne,
-pas 200 points) : ex. « 7,22 % de 2023 à 2025, puis 2,00 % ensuite ».
-
-## Fichiers
-
-| fichier | rôle |
+| Dossier | Contenu |
 |---|---|
-| `arsel_analyse.py` | **point d'entrée** interactif (à lancer) |
-| `referentiel_arsel.json` | **données** : liste des concepts (définitions, exemples, mots-clés, plages, catégories) — éditable sans toucher au code |
-| `collecter_libelles.py` | le code collecte TOUS les libellés (catalogue complet) |
-| `gemini_provider.py` | le LLM cherche le bon libellé dans tout le catalogue (par numéro) |
-| `primitives.py` | détecteurs des 4 primitives de structure |
-| `series_temporelle.py` | segmentation des séries en paliers datés |
-| `resoudre.py` | applique le traitement adapté à la structure détectée |
+| `arsel_core/` | moteur d'extraction et de validation de la Phase 1 |
+| `phase2/` | normalisation, calculs, benchmarks et génération des rapports |
+| `benchmark_hybrid/` | collecte hybride et référentiel détaillé de benchmarks |
+| `data/` | ontologie ARSEL utilisée par la Phase 1 |
+| `evaluation/` | scripts, données et résultats d'évaluation technique |
+| `tests/` | tests automatisés |
+| `docs/` | documentation et schémas |
+| `outputs/` | rapports générés |
+| `legacy/` | ancienne implémentation conservée comme archive |
+
+Les deux fichiers nommés auparavant `referentiel_normes.json` ont maintenant des rôles explicites :
+
+- `phase2/data/comparison_controls.json` contient les seuils et règles de comparaison ;
+- `benchmark_hybrid/data/referentiel_normes.json` contient les observations détaillées par source et par projet.
 
 ## Prérequis
-```
-pip install openpyxl google-genai
-setx GEMINI_API_KEY "AIza..."     # puis rouvrir le terminal
+
+```powershell
+pip install openpyxl google-genai python-docx
+setx GEMINI_API_KEY "votre-cle"
 ```
 
-## Lancement
+Sans clé Gemini, la Phase 1 reste utilisable avec sa sélection déterministe et la validation manuelle. La Phase 2 est déterministe et ne nécessite pas d'appel LLM.
+
+## Outils d'évaluation
+
+Les outils secondaires se lancent comme modules afin de conserver des imports propres :
+
+```powershell
+python -m evaluation.evaluer_tfidf "C:\chemin\modele.xlsm"
+python -m evaluation.benchmark_pipeline "C:\chemin\modele.xlsm" evaluation/data/ground_truth_kikot.json
 ```
-python arsel_analyse.py "chemin\vers\MODELE.xlsm"
-```
-Référentiel personnalisé (optionnel) : ajouter son chemin en 2e argument.
-
-## Déroulé
-0. **Concepts** — définitions + exemples de chaque hypothèse cherchée
-1. **Extraction** — LLM pointe · code détecte la structure · lit les valeurs
-2. **Validation** — l'analyste : [v]alider / [c]orriger / [s]auter / [q]uitter
-3. **Registre** — écrit `hypotheses_validees.json`
-
-Sans clé Gemini, le système fonctionne en mode manuel : il liste les candidats
-et demande l'appariement à l'analyste (il ne devine jamais).
-
-## À compléter (prochaines briques d'analyse financière)
-- **benchmark** : comparer les valeurs extraites aux normes ARSEL
-- **résolution d'indice** : relier un sélecteur (ex. OPEX→2) à l'indice nommé
-- **analyse tarif ↔ TRI cible** : substituer la contrainte ARSEL
-- **détection des données manquantes** ; **fiche de restitution** structurée

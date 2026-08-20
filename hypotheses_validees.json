@@ -1,1 +1,447 @@
-[]
+[
+  {
+    "cle": "cout_construction",
+    "description": "coût total de construction (CAPEX / EPC, hors coûts financiers)",
+    "categorie": "factuel",
+    "valeur": "1 234 548 783",
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "NO_MATCH",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 4041.712,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "investissement_total",
+    "description": "investissement total = construction + coûts financiers",
+    "categorie": "sortie",
+    "valeur": "2 472 419 665",
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 6665.432,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "opex_1",
+    "description": "coûts d'exploitation (OPEX) de la première année",
+    "categorie": "factuel",
+    "valeur": 18699161.0,
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "NO_MATCH",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 16162.181,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "inflation_opex",
+    "description": "taux d'indexation / inflation appliqué à l'OPEX",
+    "categorie": "factuel",
+    "valeur": [
+      "5.46 % → 2.47 % (décroissance) de Jul 2023 à Jan 2024",
+      "2.47 % → 2.00 % (décroissance) de Jan 2024 à Jan 2025",
+      "2.00 % de Jan 2025 à Apr 2073"
+    ],
+    "type_valeur": "time_series",
+    "nature": "taux",
+    "adresse": "InpS!E177",
+    "source": "extraction",
+    "confiance": 1.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 9145.122,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "tarif",
+    "description": "tarif ou prix de vente (capacity charge en EUR/kW/mois, ou PPA en /kWh)",
+    "categorie": "decisionnel",
+    "valeur": "63,999166 EUR/kW/mois",
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 3548.148,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "gearing",
+    "description": "part de la dette dans le financement (gearing, dette/total)",
+    "categorie": "decisionnel",
+    "valeur": 0.75,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": "InpC!E17",
+    "source": "extraction",
+    "confiance": 0.786,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 4782.569,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "duree_dette",
+    "description": "durée / maturité du prêt senior",
+    "categorie": "factuel",
+    "valeur": 18,
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": "InpC!E687",
+    "source": "extraction",
+    "confiance": 0.786,
+    "statut": "validé (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 5759.911,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "dscr_cible",
+    "description": "ratio de couverture du service de la dette (DSCR) cible",
+    "categorie": "decisionnel",
+    "valeur": 1.78,
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": "InpC!E44",
+    "source": "extraction",
+    "confiance": 0.893,
+    "statut": "validé (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 3904.815,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "is_taux",
+    "description": "taux d'impôt sur les sociétés (IS)",
+    "categorie": "factuel",
+    "valeur": 0.33,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": "InpC!E1356",
+    "source": "extraction",
+    "confiance": 1.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 5597.297,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "tva",
+    "description": "taux de TVA applicable",
+    "categorie": "factuel",
+    "valeur": 0.1925,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": "InpC!E1436",
+    "source": "extraction",
+    "confiance": 1.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 5469.252,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "wht",
+    "description": "retenue à la source (withholding tax)",
+    "categorie": "factuel",
+    "valeur": 7.5,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 4365.221,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "amortissement_duree",
+    "description": "durée d'amortissement comptable",
+    "categorie": "decisionnel",
+    "valeur": 35,
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": "InpC!E1433",
+    "source": "extraction",
+    "confiance": 0.786,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 3282.445,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "tri_projet",
+    "description": "TRI du projet après impôt",
+    "categorie": "sortie",
+    "valeur": 0.1289800941944122,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": "Summary!K6",
+    "source": "extraction",
+    "confiance": 1.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 4450.776,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "tri_fonds_propres",
+    "description": "TRI des fonds propres (equity IRR)",
+    "categorie": "sortie",
+    "valeur": 13.5791,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "NO_MATCH",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 3956.867,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "wacc",
+    "description": "coût moyen pondéré du capital (WACC)",
+    "categorie": "sortie",
+    "valeur": null,
+    "type_valeur": "missing",
+    "nature": "taux",
+    "adresse": null,
+    "source": "indisponible",
+    "confiance": null,
+    "statut": "non disponible",
+    "selection_outcome": "NO_MATCH",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 4387.739,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "taux_actualisation",
+    "description": "taux d'actualisation utilisé (souverain / de référence)",
+    "categorie": "factuel",
+    "valeur": 0.1,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": "InpC!E1154",
+    "source": "extraction",
+    "confiance": 1.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 3128.189,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "puissance",
+    "description": "puissance installée du projet",
+    "categorie": "factuel",
+    "valeur": 500,
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": "InpC!E1168",
+    "source": "extraction",
+    "confiance": 1.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 5727.635,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "productible",
+    "description": "productible ou production annuelle d'énergie",
+    "categorie": "factuel",
+    "valeur": "3 300 000 MWh/an",
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 10559.267,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "duree_construction",
+    "description": "durée de la période de construction",
+    "categorie": "factuel",
+    "valeur": 62,
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": "InpC!E56",
+    "source": "extraction",
+    "confiance": 0.786,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 4829.676,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "duree_concession",
+    "description": "durée de la concession / du contrat",
+    "categorie": "factuel",
+    "valeur": 35,
+    "type_valeur": "scalar",
+    "nature": "montant",
+    "adresse": "InpC!E1433",
+    "source": "extraction",
+    "confiance": 0.786,
+    "statut": "validé (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 1509.622,
+      "last_failure_type": null
+    }
+  },
+  {
+    "cle": "disponibilite",
+    "description": "taux de disponibilité de la centrale",
+    "categorie": "factuel",
+    "valeur": "90 %",
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "adresse": null,
+    "source": "analyste",
+    "confiance": 1.0,
+    "statut": "saisi manuellement (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "SUCCESS",
+    "llm": {
+      "llm_calls": 1,
+      "llm_successes": 1,
+      "llm_failures": 0,
+      "latency_ms": 6981.814,
+      "last_failure_type": null
+    }
+  }
+]

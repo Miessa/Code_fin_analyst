@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["_schema_version", "sources", "projects", "observations", "comparison_rules"],
+  "properties": {
+    "sources": {"type": "array", "items": {"type": "object", "required": ["source_id", "organization", "title", "url", "review_status"]}},
+    "projects": {"type": "array", "items": {"type": "object", "required": ["project_id", "project_name", "source_id", "technology", "metrics", "benchmark_status"]}},
+    "observations": {"type": "array", "items": {"type": "object", "required": ["observation_id", "source_id", "metric", "unit", "observation_type", "approval_status"]}},
+    "comparison_rules": {"type": "array", "items": {"type": "object", "required": ["rule_id", "project_metric", "observation_id", "comparison_type", "approval_status"]}}
+  }
+}
