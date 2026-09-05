@@ -15,5 +15,13 @@ class TestInstrumentationLLM(unittest.TestCase):
         with self.assertRaises(TimeoutError): appel("p")
         self.assertEqual(i.pour_metrique("tarif")["llm_failures"], 1)
 
+    def test_reponse_fallback_vide_comptee_comme_echec(self):
+        i = InstrumentationLLM()
+        appel = i.instrumenter("wacc", lambda _: {})
+        self.assertEqual(appel("p"), {})
+        stats = i.pour_metrique("wacc")
+        self.assertEqual(stats["llm_successes"], 0)
+        self.assertEqual(stats["llm_failures"], 1)
+
 
 if __name__ == "__main__": unittest.main()

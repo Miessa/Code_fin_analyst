@@ -13,6 +13,8 @@ def main(argv=None):
     parser.add_argument("--references", default=str(DEFAULT_REFERENCE))
     parser.add_argument("--output-dir", default="outputs/phase2")
     parser.add_argument("--context", help="JSON file with technology/geography/currency/price_year")
+    parser.add_argument("--comparable-selection", help="Analyst-approved comparable_selection.json")
+    parser.add_argument("--benchmark-database", default="benchmark_bank/data/benchmark_bank.duckdb")
     args = parser.parse_args(argv)
     contexte = None
     context_path = args.context
@@ -25,7 +27,8 @@ def main(argv=None):
         with open(context_path, encoding="utf-8") as stream:
             contexte = json.load(stream)
     result, json_path, md_path = executer_phase2(
-        args.registry, args.references, args.output_dir, contexte
+        args.registry, args.references, args.output_dir, contexte, args.comparable_selection,
+        args.benchmark_database
     )
     compared = sum(x["status"] == "COMPARED" for x in result["comparaisons_benchmark"])
     print(f"Phase 2 terminée: {compared} comparaison(s) appliquée(s).")

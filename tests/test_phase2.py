@@ -6,6 +6,7 @@ from pathlib import Path
 from phase2.benchmark_engine import comparer
 from phase2.derived_metrics import calculer_indicateurs
 from phase2.pipeline import executer_phase2
+from phase2.professional_analysis import construire_analyse
 
 
 REGISTRY = [
@@ -20,6 +21,21 @@ REGISTRY = [
 
 
 class TestPhase2(unittest.TestCase):
+    def test_analyse_accepte_disponibilite_en_serie_et_capex_manquant(self):
+        registry = [
+            {"cle": "cout_construction", "valeur": None, "unite": "kEUR"},
+            {"cle": "investissement_total", "valeur": 2472419.66, "unite": "kEUR"},
+            {"cle": "gearing", "valeur": 0.75},
+            {"cle": "dscr_cible", "valeur": 1.78},
+            {"cle": "tri_projet", "valeur": 0.1289},
+            {"cle": "taux_actualisation", "valeur": 0.10},
+            {"cle": "disponibilite", "valeur": ["90.00 % de J à BC"]},
+        ]
+        analyse = construire_analyse(registry, calculer_indicateurs(registry), [])
+        technique = " ".join(analyse["sections"]["technique"]["constats"])
+        self.assertIn("90.00 % de J à BC", technique)
+        self.assertIn("ne peut pas être calculée", analyse["synthese_executive"])
+
     def test_derived_metrics(self):
         values = {x["cle"]: x["valeur"] for x in calculer_indicateurs(REGISTRY)}
         self.assertAlmostEqual(values["construction_share"], 0.6)

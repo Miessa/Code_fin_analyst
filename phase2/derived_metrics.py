@@ -78,6 +78,11 @@ def calculer_indicateurs(registre, contexte=None):
         if capex is not None and monetary_scale is not None and usd_rate is not None
         else None
     )
+    total_usd = (
+        investissement * float(monetary_scale) * float(usd_rate)
+        if investissement is not None and monetary_scale is not None and usd_rate is not None
+        else None
+    )
     capex_assumptions = [] if capex_usd is not None else [
         "Renseigner currency, monetary_scale et usd_per_currency_unit dans le contexte."
     ]
@@ -104,6 +109,10 @@ def calculer_indicateurs(registre, contexte=None):
                    ["cout_construction", "puissance"],
                    "cout_construction * monetary_scale * usd_per_currency_unit / puissance_MW",
                    capex_assumptions),
+        _indicator("total_investment_per_mw", div(total_usd, puissance), "USD/MW",
+                   ["investissement_total", "puissance"],
+                   "investissement_total * monetary_scale * usd_per_currency_unit / puissance_MW",
+                   [] if total_usd is not None else capex_assumptions),
         _indicator("opex_to_capex", div(opex, capex), "ratio/year",
                    ["opex_1", "cout_construction"], "opex_1 / cout_construction"),
         _indicator("debt_share", gearing, "ratio", ["gearing"], "gearing"),

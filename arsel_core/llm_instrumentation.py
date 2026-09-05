@@ -27,7 +27,14 @@ class InstrumentationLLM:
                 stat["last_failure_type"] = type(ex).__name__
                 raise
             else:
-                stat["llm_successes"] += 1
+                # The Gemini provider deliberately returns an empty fallback
+                # after a handled 503/quota/invalid JSON response.  Such a
+                # transport attempt is not a successful semantic response.
+                if resultat is None or resultat == {}:
+                    stat["llm_failures"] += 1
+                    stat["last_failure_type"] = "EmptyOrFallbackResponse"
+                else:
+                    stat["llm_successes"] += 1
                 return resultat
             finally:
                 stat["latency_ms"] += (time.perf_counter() - debut) * 1000

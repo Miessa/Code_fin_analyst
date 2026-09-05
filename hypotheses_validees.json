@@ -3,110 +3,530 @@
     "cle": "cout_construction",
     "description": "coût total de construction (CAPEX / EPC, hors coûts financiers)",
     "categorie": "factuel",
-    "valeur": "1 234 548 783",
-    "type_valeur": "scalar",
+    "valeur": null,
+    "type_valeur": "missing",
     "nature": "montant",
-    "adresse": null,
-    "source": "analyste",
+    "unite": "Others applicables (tax, permits, financials, etc..) margin",
+    "unite_source": "extraction",
+    "adresse": "InpC!E515",
+    "source": "indisponible",
     "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
-    "selection_outcome": "NO_MATCH",
-    "execution_status": "SUCCESS",
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 4041.712,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Total EPC costs - including WHT - non sensitized",
+        "cellule_libelle": "InpC!E515",
+        "adresse_valeur": "InpC!F515",
+        "valeur": 1462489.22796192,
+        "unite": "Others applicables (tax, permits, financials, etc..) margin",
+        "score": 1.0
+      },
+      {
+        "libelle": "Total EPC costs - including WHT - non sensitized",
+        "cellule_libelle": "InpC!E980",
+        "adresse_valeur": "InpC!F980",
+        "valeur": 1462489.22796192,
+        "unite": "Senior debt tranche 4 interest margin - rpymt yr 35",
+        "score": 1.0
+      },
+      {
+        "libelle": "Total  financing cost",
+        "cellule_libelle": "Summary!K56",
+        "adresse_valeur": "Summary!M56",
+        "valeur": 530709.9830124541,
+        "unite": "Other Financing costs",
+        "score": 1.0
+      },
+      {
+        "libelle": "EPC",
+        "cellule_libelle": "Summary!K36",
+        "adresse_valeur": "Summary!M36",
+        "valeur": 1234548.782974364,
+        "unite": "EUR'000s",
+        "score": 0.925
+      },
+      {
+        "libelle": "Construction costs",
+        "cellule_libelle": "FS_Ann!E451",
+        "adresse_valeur": "FS_Ann!H451",
+        "valeur": -1013450.7439827445,
+        "unite": "XAF mn",
+        "score": 0.65
+      },
+      {
+        "libelle": "Construction costs",
+        "cellule_libelle": "FS_Ann!E635",
+        "adresse_valeur": "FS_Ann!H635",
+        "valeur": -1013450.7439827445,
+        "unite": "XAF mn",
+        "score": 0.65
+      },
+      {
+        "libelle": "Construction costs",
+        "cellule_libelle": "Output!E303",
+        "adresse_valeur": "Output!H303",
+        "valeur": -1544988.6334269538,
+        "unite": "EUR'000s",
+        "score": 0.5
+      },
+      {
+        "libelle": "Capex excluding financing costs",
+        "cellule_libelle": "Output!E58",
+        "adresse_valeur": "Output!H58",
+        "valeur": 1983349.9906753267,
+        "unite": "EUR'000s",
+        "score": 0.5
+      },
+      {
+        "libelle": "Capex including financing costs",
+        "cellule_libelle": "Output!E57",
+        "adresse_valeur": "Output!H57",
+        "valeur": 2472419.665248483,
+        "unite": "EUR'000s",
+        "score": 0.5
+      },
+      {
+        "libelle": "VAT on construction cost",
+        "cellule_libelle": "InpC!E1436",
+        "adresse_valeur": "InpC!F1436",
+        "valeur": 0.1925,
+        "unite": "years",
+        "score": 0.076
+      }
+    ]
   },
   {
     "cle": "investissement_total",
     "description": "investissement total = construction + coûts financiers",
     "categorie": "sortie",
-    "valeur": "2 472 419 665",
+    "valeur": 530709.9830124541,
     "type_valeur": "scalar",
     "nature": "montant",
-    "adresse": null,
-    "source": "analyste",
+    "unite": "Other Financing costs",
+    "unite_source": "extraction",
+    "adresse": "Summary!K56",
+    "source": "extraction",
     "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
+    "statut": "validé (analyste)",
     "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 6665.432,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Total  financing cost",
+        "cellule_libelle": "Summary!K56",
+        "adresse_valeur": "Summary!M56",
+        "valeur": 530709.9830124541,
+        "unite": "Other Financing costs",
+        "score": 1.0
+      },
+      {
+        "libelle": "Total Insurance cost",
+        "cellule_libelle": "Output!E133",
+        "adresse_valeur": "Output!H133",
+        "valeur": 16518.270848258253,
+        "unite": "EUR'000s",
+        "score": 1.0
+      },
+      {
+        "libelle": "Project Cost",
+        "cellule_libelle": "InpC!E1107",
+        "adresse_valeur": "InpC!F1107",
+        "valeur": 2472419.665236547,
+        "unite": "years",
+        "score": 1.0
+      },
+      {
+        "libelle": "Total cost during development phase - Bidder paid",
+        "cellule_libelle": "Output!E304",
+        "adresse_valeur": "Output!H304",
+        "valeur": -80029.13664343434,
+        "unite": "EUR'000s",
+        "score": 1.0
+      },
+      {
+        "libelle": "Financing costs Tranche 1",
+        "cellule_libelle": "Summary!K51",
+        "adresse_valeur": "Summary!M51",
+        "valeur": 424468.4572648682,
+        "unite": "Insurance cost & initial working capital",
+        "score": 1.0
+      },
+      {
+        "libelle": "Financing costs Tranche 2",
+        "cellule_libelle": "Summary!K52",
+        "adresse_valeur": "Summary!M52",
+        "valeur": 64601.21730828874,
+        "unite": "Financing costs Tranche 1",
+        "score": 1.0
+      },
+      {
+        "libelle": "Other Financing costs",
+        "cellule_libelle": "Summary!K55",
+        "adresse_valeur": "Summary!M55",
+        "valeur": 41640.308439297245,
+        "unite": "Financing costs Tranche 4",
+        "score": 1.0
+      },
+      {
+        "libelle": "Uses of funds",
+        "cellule_libelle": "Summary!K58",
+        "adresse_valeur": "Summary!M58",
+        "valeur": 2472419.665248484,
+        "unite": "Total  financing cost",
+        "score": 0.912
+      },
+      {
+        "libelle": "EPC",
+        "cellule_libelle": "Summary!K36",
+        "adresse_valeur": "Summary!M36",
+        "valeur": 1234548.782974364,
+        "unite": "EUR'000s",
+        "score": 0.912
+      },
+      {
+        "libelle": "Sources of funds",
+        "cellule_libelle": "Summary!E58",
+        "adresse_valeur": "Summary!F58",
+        "valeur": 2472419.6652365485,
+        "unite": "Standby debt",
+        "score": 0.912
+      }
+    ]
   },
   {
     "cle": "opex_1",
     "description": "coûts d'exploitation (OPEX) de la première année",
     "categorie": "factuel",
-    "valeur": 18699161.0,
+    "valeur": 14050,
     "type_valeur": "scalar",
     "nature": "montant",
-    "adresse": null,
-    "source": "analyste",
-    "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
-    "selection_outcome": "NO_MATCH",
-    "execution_status": "SUCCESS",
+    "unite": "Annual O&M cost - operations  technical(XAF)",
+    "unite_source": "extraction",
+    "adresse": "InpC!E1269",
+    "source": "extraction",
+    "confiance": 0.786,
+    "statut": "validé (analyste)",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
     "llm": {
       "llm_calls": 1,
-      "llm_successes": 1,
-      "llm_failures": 0,
-      "latency_ms": 16162.181,
-      "last_failure_type": null
-    }
+      "llm_successes": 0,
+      "llm_failures": 1,
+      "latency_ms": 115587.932,
+      "last_failure_type": "EmptyOrFallbackResponse"
+    },
+    "alternatives": [
+      {
+        "libelle": "Annual O&M cost - operations  technical(EUR)",
+        "cellule_libelle": "InpC!E1269",
+        "adresse_valeur": "InpC!F1269",
+        "valeur": 14050,
+        "unite": "Annual O&M cost - operations  technical(XAF)",
+        "score": 0.786
+      },
+      {
+        "libelle": "Annual O&M cost - operations  technical(EUR)",
+        "cellule_libelle": "InpC!E1272",
+        "adresse_valeur": "InpC!F1272",
+        "valeur": 14050,
+        "unite": "Annual O&M cost - operations  technical(XAF)",
+        "score": 0.786
+      },
+      {
+        "libelle": "Annual O&M cost - operations  technical(EUR)",
+        "cellule_libelle": "Oper!E356",
+        "adresse_valeur": "Oper!F356",
+        "valeur": 14050,
+        "unite": "%",
+        "score": 0.786
+      },
+      {
+        "libelle": "Annual O&M cost - operations  technical POS",
+        "cellule_libelle": "Oper!E375",
+        "adresse_valeur": "Oper!H375",
+        "valeur": 836179.0168007716,
+        "unite": "EUR'000s",
+        "score": 0.586
+      },
+      {
+        "libelle": "Annual O&M cost - operations  technical POS",
+        "cellule_libelle": "Output!E285",
+        "adresse_valeur": "Output!H285",
+        "valeur": 836179.0168007716,
+        "unite": "EUR'000s",
+        "score": 0.586
+      },
+      {
+        "libelle": "Annual O&M cost - operations  technical POS",
+        "cellule_libelle": "FS_Ann!E433",
+        "adresse_valeur": "FS_Ann!H433",
+        "valeur": 548499.9878606341,
+        "unite": "XAF mn",
+        "score": 0.586
+      },
+      {
+        "libelle": "Annual O&M cost - operations  technical POS",
+        "cellule_libelle": "FS_Ann!E619",
+        "adresse_valeur": "FS_Ann!H619",
+        "valeur": 548499.9878606341,
+        "unite": "XAF mn",
+        "score": 0.586
+      },
+      {
+        "libelle": "Annual O&M cost - operations  technical - EUR portion",
+        "cellule_libelle": "Oper!E371",
+        "adresse_valeur": "Oper!H371",
+        "valeur": 836179.0168007716,
+        "unite": "EUR'000s",
+        "score": 0.586
+      },
+      {
+        "libelle": "Operating expenses",
+        "cellule_libelle": "Oper!E464",
+        "adresse_valeur": "Oper!F464",
+        "valeur": 1948684.5666474148,
+        "unite": "EUR'000s",
+        "score": 0.543
+      },
+      {
+        "libelle": "* Annual O&M technical",
+        "cellule_libelle": "InpC!H1298",
+        "adresse_valeur": "InpC!K1298",
+        "valeur": 1,
+        "unite": null,
+        "score": 0.268
+      }
+    ]
   },
   {
     "cle": "inflation_opex",
     "description": "taux d'indexation / inflation appliqué à l'OPEX",
     "categorie": "factuel",
     "valeur": [
-      "5.46 % → 2.47 % (décroissance) de Jul 2023 à Jan 2024",
-      "2.47 % → 2.00 % (décroissance) de Jan 2024 à Jan 2025",
-      "2.00 % de Jan 2025 à Apr 2073"
+      "4.07 % → 2.57 % (décroissance) de Jul 2023 à Jan 2024",
+      "2.57 % → 2.20 % (décroissance) de Jan 2024 à Jan 2025",
+      "2.20 % → 2.00 % (décroissance) de Jan 2025 à Apr 2073"
     ],
     "type_valeur": "time_series",
     "nature": "taux",
-    "adresse": "InpS!E177",
+    "unite": "%",
+    "unite_source": "extraction",
+    "adresse": "InpS!E179",
     "source": "extraction",
     "confiance": 1.0,
     "statut": "validé (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "SUCCESS",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 9145.122,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "US CPI %",
+        "cellule_libelle": "InpS!E179",
+        "adresse_valeur": "InpS!J179",
+        "valeur": 0.0407230868196239,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "EUR CPI %  - Constn period costs",
+        "cellule_libelle": "InpS-M!E270",
+        "adresse_valeur": "InpS-M!J270",
+        "valeur": 0.0546192072932854,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "EUR CPI %",
+        "cellule_libelle": "InpS!E177",
+        "adresse_valeur": "InpS!J177",
+        "valeur": 0.0546192072932854,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "Cameroon CPI%  - Constn period costs",
+        "cellule_libelle": "InpS-M!E271",
+        "adresse_valeur": "InpS-M!J271",
+        "valeur": 0.07216,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "Cameroon CPI%",
+        "cellule_libelle": "InpS!E178",
+        "adresse_valeur": "InpS!J178",
+        "valeur": 0.07216,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "US CPI %  - Constn period costs",
+        "cellule_libelle": "InpS-M!E272",
+        "adresse_valeur": "InpS-M!J272",
+        "valeur": 0.0407230868196239,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "% p.a",
+        "cellule_libelle": "InpS-M!G271",
+        "adresse_valeur": "InpS-M!J271",
+        "valeur": 0.07216,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "% p.a.",
+        "cellule_libelle": "InpS!G178",
+        "adresse_valeur": "InpS!J178",
+        "valeur": 0.07216,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "Step up %",
+        "cellule_libelle": "Oper!E18",
+        "adresse_valeur": "Oper!F18",
+        "valeur": -0.45,
+        "unite": "Electricity price % inflation applicable",
+        "score": 0.24
+      },
+      {
+        "libelle": "Water charge price % inflation applicable",
+        "cellule_libelle": "InpC!E1185",
+        "adresse_valeur": "InpC!F1185",
+        "valeur": 1,
+        "unite": "Electricity price % inflation applicable",
+        "score": 0.24
+      }
+    ]
   },
   {
     "cle": "tarif",
     "description": "tarif ou prix de vente (capacity charge en EUR/kW/mois, ou PPA en /kWh)",
     "categorie": "decisionnel",
-    "valeur": "63,999166 EUR/kW/mois",
+    "valeur": 63.99916647024041,
     "type_valeur": "scalar",
     "nature": "montant",
-    "adresse": null,
-    "source": "analyste",
-    "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "INVALID_RESPONSE",
+    "unite": "Base (EUR/kW/month)",
+    "unite_source": "extraction",
+    "adresse": "Summary!E11",
+    "source": "extraction",
+    "confiance": 0.893,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 3548.148,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Capacity charge",
+        "cellule_libelle": "Summary!E11",
+        "adresse_valeur": "Summary!G11",
+        "valeur": 63.99916647024041,
+        "unite": "Base (EUR/kW/month)",
+        "score": 0.893
+      },
+      {
+        "libelle": "Capacity charge",
+        "cellule_libelle": "Summary!E15",
+        "adresse_valeur": "Summary!G15",
+        "valeur": 63.99916647024041,
+        "unite": "Key metrics - Tariff on KW equivalent",
+        "score": 0.893
+      },
+      {
+        "libelle": "Capacity charge",
+        "cellule_libelle": "Summary!E24",
+        "adresse_valeur": "Summary!G24",
+        "valeur": 104.7259087694843,
+        "unite": "Key metrics - Tariff on MWh basis",
+        "score": 0.893
+      },
+      {
+        "libelle": "Capacity charge rate - fixed",
+        "cellule_libelle": "Oper!E16",
+        "adresse_valeur": "Oper!F16",
+        "valeur": 63.99916647024041,
+        "unite": "EUR /kW/month",
+        "score": 0.893
+      },
+      {
+        "libelle": "Electricity tariff (Tn) profile - input",
+        "cellule_libelle": "InpC!E1212",
+        "adresse_valeur": "InpC!F1212",
+        "valeur": 130.478684405651,
+        "unite": "PV of transmission line capex recovery tariff required as % of PV of transmission line capex",
+        "score": 0.893
+      },
+      {
+        "libelle": "Electricity tariff (Tn) profile - input",
+        "cellule_libelle": "Oper!E24",
+        "adresse_valeur": "Oper!F24",
+        "valeur": 130.478684405651,
+        "unite": "EUR /kW/month",
+        "score": 0.893
+      },
+      {
+        "libelle": "Water charge payment rate",
+        "cellule_libelle": "Summary!E16",
+        "adresse_valeur": "Summary!G16",
+        "valeur": 2.4169925,
+        "unite": "Key metrics - Tariff on KW equivalent",
+        "score": 0.893
+      },
+      {
+        "libelle": "Operating expenses payment rate",
+        "cellule_libelle": "Summary!E17",
+        "adresse_valeur": "Summary!G17",
+        "valeur": 3.9525532,
+        "unite": "Key metrics - Tariff on KW equivalent",
+        "score": 0.893
+      },
+      {
+        "libelle": "Capacity charge rate - fixed",
+        "cellule_libelle": "Oper!E11",
+        "adresse_valeur": "Oper!F11",
+        "valeur": 63.99916647024041,
+        "unite": "Constant",
+        "score": 0.893
+      },
+      {
+        "libelle": "Water charge payment rate",
+        "cellule_libelle": "Summary!E25",
+        "adresse_valeur": "Summary!G25",
+        "valeur": 3.9550786363636363,
+        "unite": "Key metrics - Tariff on MWh basis",
+        "score": 0.893
+      }
+    ]
   },
   {
     "cle": "gearing",
@@ -115,19 +535,144 @@
     "valeur": 0.75,
     "type_valeur": "scalar",
     "nature": "taux",
+    "unite": "Input changes",
+    "unite_source": "extraction",
     "adresse": "InpC!E17",
     "source": "extraction",
     "confiance": 0.786,
     "statut": "validé (analyste)",
-    "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
     "llm": {
       "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_successes": 0,
+      "llm_failures": 1,
+      "latency_ms": 114474.925,
+      "last_failure_type": "EmptyOrFallbackResponse"
+    },
+    "alternatives": [
+      {
+        "libelle": "Target leverage (Max allowed)",
+        "cellule_libelle": "InpC!E17",
+        "adresse_valeur": "InpC!F17",
+        "valeur": 0.75,
+        "unite": "Input changes",
+        "score": 0.786
+      },
+      {
+        "libelle": "Gearing for Standby funding calculations - fixed",
+        "cellule_libelle": "InpC!E985",
+        "adresse_valeur": "InpC!F985",
+        "valeur": 0.7500001516733106,
+        "unite": "Standby funding commitment amount",
+        "score": 0.786
+      },
+      {
+        "libelle": "Standby debt / equity ratio",
+        "cellule_libelle": "InpC!E986",
+        "adresse_valeur": "InpC!F986",
+        "valeur": 0.7500001516733106,
+        "unite": "Gearing for Standby funding calculations - fixed",
+        "score": 0.786
+      },
+      {
+        "libelle": "Leverage at COD",
+        "cellule_libelle": "Summary!K24",
+        "adresse_valeur": "Summary!O24",
+        "valeur": 0.7500000000021644,
+        "unite": null,
+        "score": 0.786
+      },
+      {
+        "libelle": "Allow debt sizing?",
+        "cellule_libelle": "InpC!E30",
+        "adresse_valeur": "InpC!F30",
+        "valeur": 1,
+        "unite": "1 = Optimisation (updated rpymt profiles), 0 = Sensitivity (hold rpymt profiles unchanged)",
+        "score": 0.607
+      },
+      {
+        "libelle": "Allow equity sizing?",
+        "cellule_libelle": "InpC!E31",
+        "adresse_valeur": "InpC!F31",
+        "valeur": 1,
+        "unite": "1 = Optimisation (updated rpymt profiles), 0 = Sensitivity (hold rpymt profiles unchanged)",
+        "score": 0.607
+      },
+      {
+        "libelle": "Allow debt sizing?",
+        "cellule_libelle": "InpC!E25",
+        "adresse_valeur": "InpC!F25",
+        "valeur": 1,
+        "unite": "Financing scenario",
+        "score": 0.607
+      },
+      {
+        "libelle": "Allow equity sizing?",
+        "cellule_libelle": "InpC!E26",
+        "adresse_valeur": "InpC!F26",
+        "valeur": 1,
+        "unite": "Financing scenario",
+        "score": 0.607
+      },
+      {
+        "libelle": "Financing scenario",
+        "cellule_libelle": "InpC!E19",
+        "adresse_valeur": "InpC!F19",
+        "valeur": 1,
+        "unite": "%",
+        "score": 0.257
+      },
+      {
+        "libelle": "% of margin",
+        "cellule_libelle": "InpC!G760",
+        "adresse_valeur": "InpC!K760",
+        "valeur": 3.5000000000000004,
+        "unite": null,
+        "score": 0.236
+      }
+    ]
+  },
+  {
+    "cle": "taux_dette",
+    "description": "taux d'intérêt de la dette senior",
+    "categorie": "factuel",
+    "valeur": 0.12,
+    "type_valeur": "scalar",
+    "nature": "taux",
+    "unite": "Agent bank fee - Post year 7 - XAF",
+    "unite_source": "extraction",
+    "adresse": "InpC!E1063",
+    "source": "extraction",
+    "confiance": 1.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
+    "llm": {
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 4782.569,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "SHL interest rate - Construction",
+        "cellule_libelle": "InpC!E1063",
+        "adresse_valeur": "InpC!F1063",
+        "valeur": 0.12,
+        "unite": "Agent bank fee - Post year 7 - XAF",
+        "score": 1.0
+      },
+      {
+        "libelle": "Average cost of debt - consolidated",
+        "cellule_libelle": "Output!E194",
+        "adresse_valeur": "Output!H194",
+        "valeur": 0.08140472471714023,
+        "unite": "%",
+        "score": 0.5
+      }
+    ]
   },
   {
     "cle": "duree_dette",
@@ -136,19 +681,22 @@
     "valeur": 18,
     "type_valeur": "scalar",
     "nature": "montant",
+    "unite": "Senior debt repayment grace period - Tranche 1",
+    "unite_source": "extraction",
     "adresse": "InpC!E687",
     "source": "extraction",
-    "confiance": 0.786,
+    "confiance": 0.0,
     "statut": "validé (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "SUCCESS",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 5759.911,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": []
   },
   {
     "cle": "dscr_cible",
@@ -157,40 +705,208 @@
     "valeur": 1.78,
     "type_valeur": "scalar",
     "nature": "montant",
+    "unite": "1 = Constant, 0 = Series",
+    "unite_source": "extraction",
     "adresse": "InpC!E44",
     "source": "extraction",
     "confiance": 0.893,
     "statut": "validé (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "INVALID_RESPONSE",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 3904.815,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Target DSCR pre cashsweep",
+        "cellule_libelle": "InpC!E44",
+        "adresse_valeur": "InpC!F44",
+        "valeur": 1.78,
+        "unite": "1 = Constant, 0 = Series",
+        "score": 0.893
+      },
+      {
+        "libelle": "Target DSCR post cashsweep",
+        "cellule_libelle": "InpC!E45",
+        "adresse_valeur": "InpC!F45",
+        "valeur": 1.78,
+        "unite": "1 = Constant, 0 = Series",
+        "score": 0.893
+      },
+      {
+        "libelle": "ratio",
+        "cellule_libelle": "InpC!G44",
+        "adresse_valeur": "InpC!K44",
+        "valeur": 1.78,
+        "unite": null,
+        "score": 0.893
+      },
+      {
+        "libelle": "ratio",
+        "cellule_libelle": "InpC!G45",
+        "adresse_valeur": "InpC!K45",
+        "valeur": 1.78,
+        "unite": null,
+        "score": 0.893
+      },
+      {
+        "libelle": "DSRA cash or LC funded",
+        "cellule_libelle": "InpC!E1040",
+        "adresse_valeur": "InpC!F1040",
+        "valeur": 1,
+        "unite": "years",
+        "score": 0.893
+      },
+      {
+        "libelle": "ratio",
+        "cellule_libelle": "InpC!G1696",
+        "adresse_valeur": "InpC!K1696",
+        "valeur": 1.25,
+        "unite": null,
+        "score": 0.893
+      },
+      {
+        "libelle": "% of 6 month debt service",
+        "cellule_libelle": "InpC!G1042",
+        "adresse_valeur": "InpC!K1042",
+        "valeur": 1,
+        "unite": null,
+        "score": 0.5
+      },
+      {
+        "libelle": "DSRA target balance % of 6 month debt service - Pre TRD",
+        "cellule_libelle": "InpC!E1042",
+        "adresse_valeur": "InpC!F1042",
+        "valeur": 1,
+        "unite": "years",
+        "score": 0.5
+      },
+      {
+        "libelle": "Minimum 12m DSCR",
+        "cellule_libelle": "Summary!K25",
+        "adresse_valeur": "Summary!O25",
+        "valeur": 0.9471373467357632,
+        "unite": null,
+        "score": 0.268
+      },
+      {
+        "libelle": "To be amended for CS target DSCR selection",
+        "cellule_libelle": "InpC!H1048",
+        "adresse_valeur": "InpC!K1048",
+        "valeur": 7,
+        "unite": null,
+        "score": 0.163
+      }
+    ]
   },
   {
     "cle": "is_taux",
     "description": "taux d'impôt sur les sociétés (IS)",
     "categorie": "factuel",
-    "valeur": 0.33,
+    "valeur": 0.385,
     "type_valeur": "scalar",
     "nature": "taux",
-    "adresse": "InpC!E1356",
+    "unite": "Corporate tax rate (sales < 3bn XAF)",
+    "unite_source": "extraction",
+    "adresse": "InpC!E1358",
     "source": "extraction",
     "confiance": 1.0,
     "statut": "validé (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "SUCCESS",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 5597.297,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Corporate tax rate - Exemption period",
+        "cellule_libelle": "InpC!E1358",
+        "adresse_valeur": "InpC!F1358",
+        "valeur": 0.385,
+        "unite": "Corporate tax rate (sales < 3bn XAF)",
+        "score": 1.0
+      },
+      {
+        "libelle": "Corporate tax rate (sales < 3bn XAF)",
+        "cellule_libelle": "InpC!E1357",
+        "adresse_valeur": "InpC!F1357",
+        "valeur": 0.275,
+        "unite": "Corporate tax rate (sales > 3bn XAF)",
+        "score": 1.0
+      },
+      {
+        "libelle": "Corporate tax rate (sales > 3bn XAF)",
+        "cellule_libelle": "InpC!E1356",
+        "adresse_valeur": "InpC!F1356",
+        "valeur": 0.33,
+        "unite": "Tax depreciation rate - Financing costs",
+        "score": 1.0
+      },
+      {
+        "libelle": "Minimum Tax (MT) rate",
+        "cellule_libelle": "InpC!E1369",
+        "adresse_valeur": "InpC!F1369",
+        "valeur": 0.022,
+        "unite": "%",
+        "score": 1.0
+      },
+      {
+        "libelle": "Tax depreciation rate - industrial buildings initial allowance",
+        "cellule_libelle": "InpC!E1347",
+        "adresse_valeur": "InpC!F1347",
+        "valeur": 0.02857142857142857,
+        "unite": "Tax depreciation uplift %",
+        "score": 1.0
+      },
+      {
+        "libelle": "Max interest deduction as % of EBITDA",
+        "cellule_libelle": "InpC!E1361",
+        "adresse_valeur": "InpC!F1361",
+        "valeur": 0.25,
+        "unite": "Interest rate for SHL (above reference XAF curve) - tax purpose",
+        "score": 1.0
+      },
+      {
+        "libelle": "Project IRR - Post tax",
+        "cellule_libelle": "Summary!K6",
+        "adresse_valeur": "Summary!N6",
+        "valeur": 0.1289800941944122,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "Tax credit rate",
+        "cellule_libelle": "InpC!E1400",
+        "adresse_valeur": "InpC!F1400",
+        "valeur": 0.1,
+        "unite": "Advisor and other fees - accelerated depreciation switch",
+        "score": 1.0
+      },
+      {
+        "libelle": "% p.a.",
+        "cellule_libelle": "InpC!G1348",
+        "adresse_valeur": "InpC!K1348",
+        "valeur": 0.02857142857142857,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "% p.a.",
+        "cellule_libelle": "InpC!G1349",
+        "adresse_valeur": "InpC!K1349",
+        "valeur": 0.02857142857142857,
+        "unite": null,
+        "score": 1.0
+      }
+    ]
   },
   {
     "cle": "tva",
@@ -199,40 +915,184 @@
     "valeur": 0.1925,
     "type_valeur": "scalar",
     "nature": "taux",
+    "unite": "years",
+    "unite_source": "extraction",
     "adresse": "InpC!E1436",
     "source": "extraction",
     "confiance": 1.0,
     "statut": "validé (analyste)",
     "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 5469.252,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "VAT on construction cost",
+        "cellule_libelle": "InpC!E1436",
+        "adresse_valeur": "InpC!F1436",
+        "valeur": 0.1925,
+        "unite": "years",
+        "score": 1.0
+      },
+      {
+        "libelle": "WHT rate applicable on EPC costs",
+        "cellule_libelle": "InpC!E334",
+        "adresse_valeur": "InpC!F334",
+        "valeur": 0.2,
+        "unite": "EUR'000s",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for water charge caliberation",
+        "cellule_libelle": "InpC!E1186",
+        "adresse_valeur": "InpC!F1186",
+        "valeur": 0.16,
+        "unite": "Water charge price % inflation applicable",
+        "score": 1.0
+      },
+      {
+        "libelle": "VAT rate - non exempt MIGA premium on equity",
+        "cellule_libelle": "InpC!E1527",
+        "adresse_valeur": "InpC!F1527",
+        "valeur": 0.1925,
+        "unite": "% MIGA premium on equity subject to VAT",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for operating expenses caliberation",
+        "cellule_libelle": "InpC!E1192",
+        "adresse_valeur": "InpC!F1192",
+        "valeur": 0.16,
+        "unite": "Operating expenses recovery price % inflation applicable",
+        "score": 1.0
+      },
+      {
+        "libelle": "VAT on operating costs",
+        "cellule_libelle": "InpC!E1517",
+        "adresse_valeur": "InpC!F1517",
+        "valeur": 0.1925,
+        "unite": "%",
+        "score": 1.0
+      },
+      {
+        "libelle": "VAT on operating costs",
+        "cellule_libelle": "Oper!E649",
+        "adresse_valeur": "Oper!F649",
+        "valeur": 0.1925,
+        "unite": "EUR'000s",
+        "score": 1.0
+      },
+      {
+        "libelle": "Percentage of Salary and wages cost inflated",
+        "cellule_libelle": "InpC!E1285",
+        "adresse_valeur": "InpC!F1285",
+        "valeur": 1,
+        "unite": "%",
+        "score": 0.3
+      },
+      {
+        "libelle": "Percentage of water charge cost inflated",
+        "cellule_libelle": "Oper!E229",
+        "adresse_valeur": "Oper!F229",
+        "valeur": 1,
+        "unite": "Water charge cost Generation - EUR - unindexed",
+        "score": 0.3
+      },
+      {
+        "libelle": "Percentage of Insurance cost inflated",
+        "cellule_libelle": "InpC!E1286",
+        "adresse_valeur": "InpC!F1286",
+        "valeur": 1,
+        "unite": "Percentage of Salary and wages cost inflated",
+        "score": 0.3
+      }
+    ]
   },
   {
     "cle": "wht",
     "description": "retenue à la source (withholding tax)",
     "categorie": "factuel",
-    "valeur": 7.5,
+    "valeur": 0.15,
     "type_valeur": "scalar",
     "nature": "taux",
-    "adresse": null,
-    "source": "analyste",
+    "unite": "Withholding tax rate - shareholder loan interest - EDF",
+    "unite_source": "extraction",
+    "adresse": "InpC!E1590",
+    "source": "extraction",
     "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "INVALID_RESPONSE",
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 4365.221,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Withholding tax rate - dividends - EDF",
+        "cellule_libelle": "InpC!E1590",
+        "adresse_valeur": "InpC!F1590",
+        "valeur": 0.15,
+        "unite": "Withholding tax rate - shareholder loan interest - EDF",
+        "score": 1.0
+      },
+      {
+        "libelle": "Withholding tax rate - dividends - Sponsor 2",
+        "cellule_libelle": "InpC!E1594",
+        "adresse_valeur": "InpC!F1594",
+        "valeur": 0.15,
+        "unite": "Withholding tax rate - shareholder loan interest - Sponsor 2",
+        "score": 1.0
+      },
+      {
+        "libelle": "Withholding tax rate - shareholder loan interest - EDF",
+        "cellule_libelle": "InpC!E1589",
+        "adresse_valeur": "InpC!F1589",
+        "valeur": 0.15,
+        "unite": "%",
+        "score": 1.0
+      },
+      {
+        "libelle": "Withholding tax rate - dividends - Sponsor 4",
+        "cellule_libelle": "InpC!E1602",
+        "adresse_valeur": "InpC!F1602",
+        "valeur": 0.15,
+        "unite": "Withholding tax rate - shareholder loan interest - Sponsor 4",
+        "score": 1.0
+      },
+      {
+        "libelle": "% MIGA premium with WHT exemption",
+        "cellule_libelle": "InpC!E1539",
+        "adresse_valeur": "InpC!F1539",
+        "valeur": 1,
+        "unite": "Withholding tax rate - non exempt bank senior debt fees",
+        "score": 0.3
+      },
+      {
+        "libelle": "% MIGA premium with WHT exemption - Sponsor 2",
+        "cellule_libelle": "InpC!E1557",
+        "adresse_valeur": "InpC!F1557",
+        "valeur": 1,
+        "unite": "%",
+        "score": 0.3
+      },
+      {
+        "libelle": "% MIGA premium with WHT exemption - EDF",
+        "cellule_libelle": "InpC!E1550",
+        "adresse_valeur": "InpC!F1550",
+        "valeur": 1,
+        "unite": "%",
+        "score": 0.3
+      }
+    ]
   },
   {
     "cle": "amortissement_duree",
@@ -241,19 +1101,39 @@
     "valeur": 35,
     "type_valeur": "scalar",
     "nature": "montant",
+    "unite": "years",
+    "unite_source": "extraction",
     "adresse": "InpC!E1433",
     "source": "extraction",
     "confiance": 0.786,
     "statut": "validé (analyste)",
     "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 3282.445,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Useful life of asset",
+        "cellule_libelle": "InpC!E1433",
+        "adresse_valeur": "InpC!F1433",
+        "valeur": 35,
+        "unite": "years",
+        "score": 0.786
+      },
+      {
+        "libelle": "Useful life of asset - use input or operations length",
+        "cellule_libelle": "InpC!E1432",
+        "adresse_valeur": "InpC!F1432",
+        "valeur": 2,
+        "unite": "years",
+        "score": 0.236
+      }
+    ]
   },
   {
     "cle": "tri_projet",
@@ -262,82 +1142,297 @@
     "valeur": 0.1289800941944122,
     "type_valeur": "scalar",
     "nature": "taux",
+    "unite": "%",
+    "unite_source": "extraction",
     "adresse": "Summary!K6",
     "source": "extraction",
     "confiance": 1.0,
     "statut": "validé (analyste)",
     "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 4450.776,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Project IRR - Post tax",
+        "cellule_libelle": "Summary!K6",
+        "adresse_valeur": "Summary!N6",
+        "valeur": 0.1289800941944122,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "Equity IRR including development phase - EDF",
+        "cellule_libelle": "Summary!K8",
+        "adresse_valeur": "Summary!N8",
+        "valeur": 0.1600361049175263,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "% p.a.",
+        "cellule_libelle": "InpC!G1349",
+        "adresse_valeur": "InpC!K1349",
+        "valeur": 0.02857142857142857,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "Project IRR",
+        "cellule_libelle": "Output!E21",
+        "adresse_valeur": "Output!H21",
+        "valeur": 0.1289800941944122,
+        "unite": "EUR'000s/month",
+        "score": 0.5
+      },
+      {
+        "libelle": "years",
+        "cellule_libelle": "InpC!G1359",
+        "adresse_valeur": "InpC!K1359",
+        "valeur": 10,
+        "unite": null,
+        "score": 0.182
+      },
+      {
+        "libelle": "Tax Losses carry forward - expiry in years",
+        "cellule_libelle": "InpC!E1359",
+        "adresse_valeur": "InpC!F1359",
+        "valeur": 10,
+        "unite": "%",
+        "score": 0.182
+      },
+      {
+        "libelle": "Project Cost",
+        "cellule_libelle": "InpC!E1107",
+        "adresse_valeur": "InpC!F1107",
+        "valeur": 2472419.665236547,
+        "unite": "years",
+        "score": 0.15
+      },
+      {
+        "libelle": "VAT to be funded as Project cost",
+        "cellule_libelle": "InpC!E1685",
+        "adresse_valeur": "InpC!F1685",
+        "valeur": 1,
+        "unite": "% p.a.",
+        "score": 0.15
+      },
+      {
+        "libelle": "Project co. cost during construction Indexation factor",
+        "cellule_libelle": "InpC!E224",
+        "adresse_valeur": "InpC!F224",
+        "valeur": 8,
+        "unite": "1=EUR CPI, 2=Cameroon CPI, 3=US CPI, 4=Steel indexation, 5=Cement indexation, 6=Fuel indexation, 7=Spare indexation, 8=No indexation",
+        "score": 0.15
+      },
+      {
+        "libelle": "Profit after tax",
+        "cellule_libelle": "Output!E271",
+        "adresse_valeur": "Output!H271",
+        "valeur": 5719267.444439274,
+        "unite": "EUR'000s",
+        "score": 0.032
+      }
+    ]
   },
   {
     "cle": "tri_fonds_propres",
     "description": "TRI des fonds propres (equity IRR)",
     "categorie": "sortie",
-    "valeur": 13.5791,
+    "valeur": 0.12195250391960144,
     "type_valeur": "scalar",
     "nature": "taux",
-    "adresse": null,
-    "source": "analyste",
+    "unite": "%",
+    "unite_source": "extraction",
+    "adresse": "Summary!K10",
+    "source": "extraction",
     "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
-    "selection_outcome": "NO_MATCH",
-    "execution_status": "SUCCESS",
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 3956.867,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Equity IRR including development phase - GDC.",
+        "cellule_libelle": "Summary!K10",
+        "adresse_valeur": "Summary!N10",
+        "valeur": 0.12195250391960144,
+        "unite": null,
+        "score": 1.0
+      },
+      {
+        "libelle": "EDF equity IRR - real",
+        "cellule_libelle": "Output!E30",
+        "adresse_valeur": "Output!H30",
+        "valeur": 0.1576600849628449,
+        "unite": "% p.a.",
+        "score": 0.5
+      },
+      {
+        "libelle": "GDC equity IRR",
+        "cellule_libelle": "Output!E26",
+        "adresse_valeur": "Output!H26",
+        "valeur": 0.12195250391960144,
+        "unite": "% p.a.",
+        "score": 0.5
+      },
+      {
+        "libelle": "EDF equity IRR",
+        "cellule_libelle": "Output!E24",
+        "adresse_valeur": "Output!H24",
+        "valeur": 0.1600361049175263,
+        "unite": "% p.a.",
+        "score": 0.5
+      },
+      {
+        "libelle": "GDC equity IRR - real",
+        "cellule_libelle": "Output!E32",
+        "adresse_valeur": "Output!H32",
+        "valeur": 0.1288477957248688,
+        "unite": "% p.a.",
+        "score": 0.5
+      }
+    ]
   },
   {
     "cle": "wacc",
     "description": "coût moyen pondéré du capital (WACC)",
     "categorie": "sortie",
-    "valeur": null,
-    "type_valeur": "missing",
+    "valeur": 0,
+    "type_valeur": "scalar",
     "nature": "taux",
-    "adresse": null,
-    "source": "indisponible",
-    "confiance": null,
-    "statut": "non disponible",
-    "selection_outcome": "NO_MATCH",
-    "execution_status": "SUCCESS",
+    "unite": "% p.a.",
+    "unite_source": "extraction",
+    "adresse": "Output!E195",
+    "source": "extraction",
+    "confiance": 0.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 4387.739,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": []
   },
   {
     "cle": "taux_actualisation",
     "description": "taux d'actualisation utilisé (souverain / de référence)",
     "categorie": "factuel",
-    "valeur": 0.1,
+    "valeur": 0.16,
     "type_valeur": "scalar",
     "nature": "taux",
-    "adresse": "InpC!E1154",
+    "unite": "Compounding rate for anticipated capex npv calculation",
+    "unite_source": "extraction",
+    "adresse": "InpC!E1200",
     "source": "extraction",
     "confiance": 1.0,
     "statut": "validé (analyste)",
     "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 3128.189,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Discount rate for public utility charge caliberation",
+        "cellule_libelle": "InpC!E1200",
+        "adresse_valeur": "InpC!F1200",
+        "valeur": 0.16,
+        "unite": "Compounding rate for anticipated capex npv calculation",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for water charge caliberation",
+        "cellule_libelle": "InpC!E1186",
+        "adresse_valeur": "InpC!F1186",
+        "valeur": 0.16,
+        "unite": "Water charge price % inflation applicable",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for operating expenses caliberation",
+        "cellule_libelle": "InpC!E1192",
+        "adresse_valeur": "InpC!F1192",
+        "valeur": 0.16,
+        "unite": "Operating expenses recovery price % inflation applicable",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for NPV for LCOE",
+        "cellule_libelle": "InpC!E1154",
+        "adresse_valeur": "InpC!F1154",
+        "valeur": 0.1,
+        "unite": "% p.a.",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for transmission line charge caliberation",
+        "cellule_libelle": "InpC!E1207",
+        "adresse_valeur": "InpC!F1207",
+        "valeur": 0.16,
+        "unite": "Compounding rate for transmission line capex npv calculation",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for water charge caliberation",
+        "cellule_libelle": "Oper!E811",
+        "adresse_valeur": "Oper!F811",
+        "valeur": 0.16,
+        "unite": "Year elapsed since construction end date",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for operating expenses caliberation",
+        "cellule_libelle": "Oper!E840",
+        "adresse_valeur": "Oper!F840",
+        "valeur": 0.16,
+        "unite": "Year elapsed since construction end date",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for public utility charge caliberation",
+        "cellule_libelle": "Oper!E873",
+        "adresse_valeur": "Oper!F873",
+        "valeur": 0.16,
+        "unite": "Year elapsed since construction end date",
+        "score": 1.0
+      },
+      {
+        "libelle": "Discount rate for transmission line charge caliberation",
+        "cellule_libelle": "Oper!E897",
+        "adresse_valeur": "Oper!F897",
+        "valeur": 0.16,
+        "unite": "Year elapsed since construction end date",
+        "score": 1.0
+      },
+      {
+        "libelle": "Interest rate for SHL (above reference XAF curve) - tax purpose",
+        "cellule_libelle": "InpC!E1360",
+        "adresse_valeur": "InpC!F1360",
+        "valeur": 0.02,
+        "unite": "Tax Losses carry forward - expiry in years",
+        "score": 1.0
+      }
+    ]
   },
   {
     "cle": "puissance",
@@ -346,40 +1441,200 @@
     "valeur": 500,
     "type_valeur": "scalar",
     "nature": "montant",
-    "adresse": "InpC!E1168",
+    "unite": "months",
+    "unite_source": "extraction",
+    "adresse": "Oper!E46",
     "source": "extraction",
     "confiance": 1.0,
     "statut": "validé (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "INVALID_RESPONSE",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 5727.635,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Plant capacity during operations",
+        "cellule_libelle": "Oper!E46",
+        "adresse_valeur": "Oper!F46",
+        "valeur": 500,
+        "unite": "months",
+        "score": 1.0
+      },
+      {
+        "libelle": "Plant capacity during operations",
+        "cellule_libelle": "InpC!E1168",
+        "adresse_valeur": "InpC!F1168",
+        "valeur": 500,
+        "unite": "months",
+        "score": 1.0
+      },
+      {
+        "libelle": "Units in a thousands",
+        "cellule_libelle": "Oper!E50",
+        "adresse_valeur": "Oper!F50",
+        "valeur": 1000,
+        "unite": "Net dependable plant capacity available",
+        "score": 0.893
+      },
+      {
+        "libelle": "Plant capacity during early generation case selector",
+        "cellule_libelle": "InpC!E1170",
+        "adresse_valeur": "InpC!F1170",
+        "valeur": 1,
+        "unite": "Plant capacity during operations",
+        "score": 0.65
+      },
+      {
+        "libelle": "Plant capacity during early generation case selector",
+        "cellule_libelle": "InpS-M!E90",
+        "adresse_valeur": "InpS-M!F90",
+        "valeur": 1,
+        "unite": "%",
+        "score": 0.65
+      },
+      {
+        "libelle": "Capacity charge - Step down/ up",
+        "cellule_libelle": "Output!E13",
+        "adresse_valeur": "Output!H13",
+        "valeur": 35.19954155863223,
+        "unite": "EUR / kW / month",
+        "score": 0.393
+      },
+      {
+        "libelle": "MWh",
+        "cellule_libelle": "InpS!G94",
+        "adresse_valeur": "InpS!J94",
+        "valeur": 825000,
+        "unite": null,
+        "score": 0.236
+      },
+      {
+        "libelle": "Capacity payments",
+        "cellule_libelle": "Output!E276",
+        "adresse_valeur": "Output!H276",
+        "valeur": 11753485.51174069,
+        "unite": "EUR'000s",
+        "score": 0.118
+      },
+      {
+        "libelle": "Capacity payments",
+        "cellule_libelle": "Oper!E63",
+        "adresse_valeur": "Oper!H63",
+        "valeur": 11753485.51174069,
+        "unite": "months",
+        "score": 0.118
+      }
+    ]
   },
   {
     "cle": "productible",
     "description": "productible ou production annuelle d'énergie",
     "categorie": "factuel",
-    "valeur": "3 300 000 MWh/an",
+    "valeur": 67.26376715824561,
     "type_valeur": "scalar",
     "nature": "montant",
-    "adresse": null,
-    "source": "analyste",
-    "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
-    "selection_outcome": "AMBIGUOUS",
-    "execution_status": "INVALID_RESPONSE",
+    "unite": "EUR /kW / month",
+    "unite_source": "extraction",
+    "adresse": "Oper!E56",
+    "source": "extraction",
+    "confiance": 0.893,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
     "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
+      "llm_calls": 0,
+      "llm_successes": 0,
       "llm_failures": 0,
-      "latency_ms": 10559.267,
+      "latency_ms": 0.0,
       "last_failure_type": null
-    }
+    },
+    "alternatives": [
+      {
+        "libelle": "Electricity tariff at year 1 - T1",
+        "cellule_libelle": "Oper!E56",
+        "adresse_valeur": "Oper!F56",
+        "valeur": 67.26376715824561,
+        "unite": "EUR /kW / month",
+        "score": 0.893
+      },
+      {
+        "libelle": "Number of months in modelling period",
+        "cellule_libelle": "Oper!E58",
+        "adresse_valeur": "Oper!F58",
+        "valeur": 3,
+        "unite": "Electricity tariff at year 1 - T1",
+        "score": 0.893
+      },
+      {
+        "libelle": "1 = semi annual, 2 = annual",
+        "cellule_libelle": "InpC!G566",
+        "adresse_valeur": "InpC!K566",
+        "valeur": 1,
+        "unite": null,
+        "score": 0.893
+      },
+      {
+        "libelle": "1 = semi annual, 2 = annual",
+        "cellule_libelle": "InpC!G618",
+        "adresse_valeur": "InpC!K618",
+        "valeur": 1,
+        "unite": null,
+        "score": 0.893
+      },
+      {
+        "libelle": "Electricity generation - Year 1",
+        "cellule_libelle": "InpS!E134",
+        "adresse_valeur": "InpS!F134",
+        "valeur": 3300000,
+        "unite": "MWh",
+        "score": 0.65
+      },
+      {
+        "libelle": "Electricity generation profile - operations",
+        "cellule_libelle": "InpS!E94",
+        "adresse_valeur": "InpS!J94",
+        "valeur": 825000,
+        "unite": null,
+        "score": 0.65
+      },
+      {
+        "libelle": "MWh",
+        "cellule_libelle": "InpS!G94",
+        "adresse_valeur": "InpS!J94",
+        "valeur": 825000,
+        "unite": null,
+        "score": 0.65
+      },
+      {
+        "libelle": "MWh",
+        "cellule_libelle": "InpS-M!G103",
+        "adresse_valeur": "InpS-M!BJ103",
+        "valeur": 60833.333333333336,
+        "unite": null,
+        "score": 0.65
+      },
+      {
+        "libelle": "Early generation",
+        "cellule_libelle": "InpS-M!E103",
+        "adresse_valeur": "InpS-M!BJ103",
+        "valeur": 60833.333333333336,
+        "unite": null,
+        "score": 0.58
+      },
+      {
+        "libelle": "Capacity charge rate - fixed",
+        "cellule_libelle": "Oper!E16",
+        "adresse_valeur": "Oper!F16",
+        "valeur": 63.99916647024041,
+        "unite": "EUR /kW/month",
+        "score": 0.58
+      }
+    ]
   },
   {
     "cle": "duree_construction",
@@ -388,28 +1643,140 @@
     "valeur": 62,
     "type_valeur": "scalar",
     "nature": "montant",
-    "adresse": "InpC!E56",
+    "unite": "mois",
+    "unite_source": "extraction",
+    "adresse": "InpC!G56",
     "source": "extraction",
-    "confiance": 0.786,
+    "confiance": 0.893,
     "statut": "validé (analyste)",
-    "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
+    "selection_outcome": "AMBIGUOUS",
+    "execution_status": "INVALID_RESPONSE",
     "llm": {
       "llm_calls": 1,
-      "llm_successes": 1,
-      "llm_failures": 0,
-      "latency_ms": 4829.676,
-      "last_failure_type": null
-    }
+      "llm_successes": 0,
+      "llm_failures": 1,
+      "latency_ms": 2728.063,
+      "last_failure_type": "EmptyOrFallbackResponse"
+    },
+    "alternatives": [
+      {
+        "libelle": "months",
+        "cellule_libelle": "InpC!G56",
+        "adresse_valeur": "InpC!K56",
+        "valeur": 62,
+        "unite": null,
+        "score": 0.893
+      },
+      {
+        "libelle": "Operations period",
+        "cellule_libelle": "Summary!E8",
+        "adresse_valeur": "Summary!G8",
+        "valeur": 35,
+        "unite": "Financial close date",
+        "score": 0.893
+      },
+      {
+        "libelle": "Length of construction period",
+        "cellule_libelle": "InpC!E56",
+        "adresse_valeur": "InpC!F56",
+        "valeur": 62,
+        "unite": "Number of months in modelling period",
+        "score": 0.786
+      },
+      {
+        "libelle": "Construction period",
+        "cellule_libelle": "Summary!E7",
+        "adresse_valeur": "Summary!G7",
+        "valeur": 62,
+        "unite": "Financial close date",
+        "score": 0.786
+      },
+      {
+        "libelle": "Transmission line duration",
+        "cellule_libelle": "InpC!E64",
+        "adresse_valeur": "InpC!F64",
+        "valeur": 62,
+        "unite": "Transmission line start date",
+        "score": 0.786
+      },
+      {
+        "libelle": "Anticipated capex duration",
+        "cellule_libelle": "InpC!E60",
+        "adresse_valeur": "InpC!F60",
+        "valeur": 24,
+        "unite": "Anticipated capex start date",
+        "score": 0.786
+      },
+      {
+        "libelle": "Senior debt XAF based swap rate - construction period",
+        "cellule_libelle": "InpC!E650",
+        "adresse_valeur": "InpC!F650",
+        "valeur": 0.08,
+        "unite": "Senior debt EURIBOR based swap rate from COD + 3 years to tenor end",
+        "score": 0.15
+      },
+      {
+        "libelle": "Senior debt XAF based swap rate - construction period",
+        "cellule_libelle": "InpC!E741",
+        "adresse_valeur": "InpC!F741",
+        "valeur": 0.08,
+        "unite": "% of Senior debt hedged 1 - T2 (DFI debt) from COD + 3 years to tenor end",
+        "score": 0.15
+      },
+      {
+        "libelle": "Senior debt EURIBOR based swap rate - construction period",
+        "cellule_libelle": "InpC!E646",
+        "adresse_valeur": "InpC!F646",
+        "valeur": 0.03,
+        "unite": "Tranche 1 currency selector",
+        "score": 0.15
+      },
+      {
+        "libelle": "Senior debt EURIBOR based swap rate - construction period",
+        "cellule_libelle": "InpC!E654",
+        "adresse_valeur": "InpC!F654",
+        "valeur": 0.03,
+        "unite": "Senior debt XAF based swap rate from COD + 3 years to tenor end",
+        "score": 0.15
+      }
+    ]
   },
   {
     "cle": "duree_concession",
     "description": "durée de la concession / du contrat",
     "categorie": "factuel",
-    "valeur": 35,
+    "valeur": 0,
     "type_valeur": "scalar",
     "nature": "montant",
-    "adresse": "InpC!E1433",
+    "unite": "EUR'000s",
+    "unite_source": "extraction",
+    "adresse": "Summary!K15",
+    "source": "extraction",
+    "confiance": 0.0,
+    "statut": "validé (analyste)",
+    "selection_outcome": "SELECTED",
+    "execution_status": "NOT_REQUIRED",
+    "llm": {
+      "llm_calls": 0,
+      "llm_successes": 0,
+      "llm_failures": 0,
+      "latency_ms": 0.0,
+      "last_failure_type": null
+    },
+    "alternatives": []
+  },
+  {
+    "cle": "disponibilite",
+    "description": "taux de disponibilité de la centrale",
+    "categorie": "factuel",
+    "valeur": [
+      "90.00 % de J à BC"
+    ],
+    "type_valeur": "time_series",
+    "nature": "taux",
+    "unite": "*As per Giulia's mail on 17th Jan (3:10 p.m)",
+    "unite_source": "extraction",
+    "adresse": "InpS!E40",
     "source": "extraction",
     "confiance": 0.786,
     "statut": "validé (analyste)",
@@ -417,31 +1784,92 @@
     "execution_status": "INVALID_RESPONSE",
     "llm": {
       "llm_calls": 1,
-      "llm_successes": 1,
-      "llm_failures": 0,
-      "latency_ms": 1509.622,
-      "last_failure_type": null
-    }
-  },
-  {
-    "cle": "disponibilite",
-    "description": "taux de disponibilité de la centrale",
-    "categorie": "factuel",
-    "valeur": "90 %",
-    "type_valeur": "scalar",
-    "nature": "taux",
-    "adresse": null,
-    "source": "analyste",
-    "confiance": 1.0,
-    "statut": "saisi manuellement (analyste)",
-    "selection_outcome": "SELECTED",
-    "execution_status": "SUCCESS",
-    "llm": {
-      "llm_calls": 1,
-      "llm_successes": 1,
-      "llm_failures": 0,
-      "latency_ms": 6981.814,
-      "last_failure_type": null
-    }
+      "llm_successes": 0,
+      "llm_failures": 1,
+      "latency_ms": 10589.193,
+      "last_failure_type": "EmptyOrFallbackResponse"
+    },
+    "alternatives": [
+      {
+        "libelle": "Unavailability",
+        "cellule_libelle": "InpS!E40",
+        "adresse_valeur": "InpS!J40",
+        "valeur": 0.1,
+        "unite": "*As per Giulia's mail on 17th Jan (3:10 p.m)",
+        "score": 0.786
+      },
+      {
+        "libelle": "Unavailability scenario 1",
+        "cellule_libelle": "InpS!E37",
+        "adresse_valeur": "InpS!J37",
+        "valeur": 0.2466,
+        "unite": null,
+        "score": 0.786
+      },
+      {
+        "libelle": "Electricity price % inflation applicable",
+        "cellule_libelle": "InpC!E1181",
+        "adresse_valeur": "InpC!F1181",
+        "valeur": 1,
+        "unite": "Plant degradation Scenario selection",
+        "score": 0.786
+      },
+      {
+        "libelle": "Unavailability scenario 3",
+        "cellule_libelle": "InpS!E39",
+        "adresse_valeur": "InpS!J39",
+        "valeur": 0.1,
+        "unite": "*As per Giulia's mail on 17th Jan (3:10 p.m)",
+        "score": 0.786
+      },
+      {
+        "libelle": "Standby debt margin during availability period",
+        "cellule_libelle": "InpC!E992",
+        "adresse_valeur": "InpC!F992",
+        "valeur": 0.03399466197482598,
+        "unite": "Standby debt day count convention",
+        "score": 0.786
+      },
+      {
+        "libelle": "Electricity price profile calculated or input?",
+        "cellule_libelle": "InpC!E1180",
+        "adresse_valeur": "InpC!F1180",
+        "valeur": 1,
+        "unite": "Plant degradation Scenario selection",
+        "score": 0.5
+      },
+      {
+        "libelle": "Spare Scenario selection",
+        "cellule_libelle": "InpS!E29",
+        "adresse_valeur": "InpS!F29",
+        "valeur": 1,
+        "unite": "Plant degradation",
+        "score": 0.257
+      },
+      {
+        "libelle": "Early plant availability - case selector",
+        "cellule_libelle": "InpC!E1171",
+        "adresse_valeur": "InpC!F1171",
+        "valeur": 1,
+        "unite": "Plant capacity during early generation case selector",
+        "score": 0.257
+      },
+      {
+        "libelle": "Early plant availability - case selector",
+        "cellule_libelle": "InpS-M!E96",
+        "adresse_valeur": "InpS-M!F96",
+        "valeur": 1,
+        "unite": "MW",
+        "score": 0.257
+      },
+      {
+        "libelle": "Spare Scenario selection",
+        "cellule_libelle": "InpC!E1176",
+        "adresse_valeur": "InpC!F1176",
+        "valeur": 1,
+        "unite": "Plant degradation Scenario selection",
+        "score": 0.257
+      }
+    ]
   }
 ]

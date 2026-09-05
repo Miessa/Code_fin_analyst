@@ -28,6 +28,36 @@ from .series_temporelle import (
 )
 
 
+def _inverser_segments(segments):
+    inverses = []
+    for segment in segments or []:
+        copie = dict(segment)
+        if copie.get("type") == "palier" and isinstance(copie.get("valeur"), (int, float)):
+            copie["valeur"] = 1 - copie["valeur"]
+        elif copie.get("type") == "tendance":
+            copie["debut_val"] = 1 - copie["debut_val"]
+            copie["fin_val"] = 1 - copie["fin_val"]
+        inverses.append(copie)
+    return inverses
+
+
+def resoudre_disponibilite(wb, adresse_libelle, adresse_valeur, nature="taux"):
+    resultat = _resoudre_generique(wb, adresse_libelle, nature=nature)
+    libelle = str(resultat.get("libelle") or "").lower()
+    if "unavailability" not in libelle and "indisponibil" not in libelle:
+        return resultat
+    detail = resultat.get("detail", {})
+    if isinstance(detail.get("valeur"), (int, float)):
+        detail["valeur_source_unavailability"] = detail["valeur"]
+        detail["valeur"] = 1 - detail["valeur"]
+    if detail.get("segments"):
+        detail["segments_source_unavailability"] = detail["segments"]
+        detail["segments"] = _inverser_segments(detail["segments"])
+        detail["restitution"] = restituer(detail["segments"], "taux")
+    detail["transformation"] = "availability = 1 - unavailability"
+    return resultat
+
+
 def _coord(adresse):
     feuille, cell = adresse.split("!", 1)
     col = "".join(ch for ch in cell if ch.isalpha())
@@ -544,6 +574,9 @@ def resoudre(
         "year1_generation",
         "scalar_result",
         "duration_value",
+        "year1_value",
+        "scalar_or_debt_tranche",
+        "tariff_value_or_profile",
     }
 
     if resolver in RESOLVERS_DIRECTS:
@@ -565,6 +598,11 @@ def resoudre(
             adresse_valeur=adresse_valeur,
             nature=nature,
             catalogue=catalogue,
+        )
+
+    if resolver == "rate_or_profile":
+        return resoudre_disponibilite(
+            wb, adresse_libelle, adresse_valeur, nature=nature or "taux"
         )
 
     # ----------------------------------------------------------

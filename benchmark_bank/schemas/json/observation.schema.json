@@ -1,0 +1,390 @@
+{
+  "$defs": {
+    "ObservationType": {
+      "enum": [
+        "project",
+        "sector_statistic",
+        "reference_point",
+        "financing_instrument"
+      ],
+      "title": "ObservationType",
+      "type": "string"
+    },
+    "QualityLevel": {
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "QualityLevel",
+      "type": "string"
+    },
+    "ReviewStatus": {
+      "enum": [
+        "unreviewed",
+        "pending",
+        "verified",
+        "rejected",
+        "superseded"
+      ],
+      "title": "ReviewStatus",
+      "type": "string"
+    },
+    "ValueStatus": {
+      "enum": [
+        "reported",
+        "derived",
+        "estimated",
+        "imputed"
+      ],
+      "title": "ValueStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "observation_id": {
+      "maxLength": 128,
+      "minLength": 2,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "title": "Observation Id",
+      "type": "string"
+    },
+    "source_id": {
+      "maxLength": 128,
+      "minLength": 2,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "project_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 2,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Project Id"
+    },
+    "ingestion_run_id": {
+      "maxLength": 128,
+      "minLength": 2,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "title": "Ingestion Run Id",
+      "type": "string"
+    },
+    "metric": {
+      "maxLength": 96,
+      "minLength": 2,
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "title": "Metric",
+      "type": "string"
+    },
+    "observation_type": {
+      "$ref": "#/$defs/ObservationType",
+      "default": "project"
+    },
+    "value_status": {
+      "$ref": "#/$defs/ValueStatus",
+      "default": "reported"
+    },
+    "raw_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw Value"
+    },
+    "raw_low": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw Low"
+    },
+    "raw_high": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw High"
+    },
+    "raw_unit": {
+      "anyOf": [
+        {
+          "maxLength": 160,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Raw Unit"
+    },
+    "normalized_value": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Normalized Value"
+    },
+    "normalized_low": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Normalized Low"
+    },
+    "normalized_high": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Normalized High"
+    },
+    "normalized_unit": {
+      "anyOf": [
+        {
+          "maxLength": 160,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Normalized Unit"
+    },
+    "normalization_status": {
+      "default": "not_normalized",
+      "maxLength": 50,
+      "title": "Normalization Status",
+      "type": "string"
+    },
+    "currency": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Currency"
+    },
+    "price_year": {
+      "anyOf": [
+        {
+          "maximum": 2200,
+          "minimum": 1800,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Price Year"
+    },
+    "value_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Value Date"
+    },
+    "statistic": {
+      "anyOf": [
+        {
+          "maxLength": 100,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Statistic"
+    },
+    "scenario": {
+      "anyOf": [
+        {
+          "maxLength": 250,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scenario"
+    },
+    "economic_perimeter": {
+      "anyOf": [
+        {
+          "maxLength": 500,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Economic Perimeter"
+    },
+    "estimate_stage": {
+      "anyOf": [
+        {
+          "maxLength": 100,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Estimate Stage"
+    },
+    "includes_taxes": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Includes Taxes"
+    },
+    "includes_financing_costs": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Includes Financing Costs"
+    },
+    "source_location": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Source Location",
+      "type": "string"
+    },
+    "source_excerpt": {
+      "anyOf": [
+        {
+          "maxLength": 4000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Source Excerpt"
+    },
+    "quality_level": {
+      "$ref": "#/$defs/QualityLevel",
+      "default": "unknown"
+    },
+    "review_status": {
+      "$ref": "#/$defs/ReviewStatus",
+      "default": "unreviewed"
+    },
+    "derivation_formula": {
+      "anyOf": [
+        {
+          "maxLength": 1000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Derivation Formula"
+    },
+    "input_observation_ids": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 2,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+        "type": "string"
+      },
+      "title": "Input Observation Ids",
+      "type": "array"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "observation_id",
+    "source_id",
+    "ingestion_run_id",
+    "metric",
+    "source_location"
+  ],
+  "title": "Observation",
+  "type": "object"
+}

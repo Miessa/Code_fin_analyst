@@ -21,6 +21,7 @@ from arsel_core.semantic_selector import (
     choisir_semantiquement,
 )
 from arsel_core.tfidf_search import IndexTfidf
+from arsel_core.embedding_search import creer_index_embeddings
 from arsel_core.formula_dependency import IndexDependancesFormules
 
 
@@ -63,6 +64,7 @@ def benchmark(modele, referentiel, verite, avec_llm=False):
     registre = normaliser_registre(charger_json(verite))
     catalogue = collecter(modele)
     index = IndexTfidf(catalogue)
+    index_embeddings, erreur_embeddings = creer_index_embeddings(catalogue)
     # Le détecteur effectue de nombreux accès dispersés. Le mode read_only est
     # séquentiel et devient extrêmement lent ici ; le benchmark charge donc les
     # feuilles en mémoire pour conserver un temps d'exécution exploitable.
@@ -85,6 +87,7 @@ def benchmark(modele, referentiel, verite, avec_llm=False):
         candidats, lexicaux, tfidf = recuperer_candidats(
             concept, catalogue, index,
             index_dependances=index_dependances,
+            index_embeddings=index_embeddings,
         )
         scored = scorer_candidats(wb, concept, candidats, wb_formules=wb_formules)
         retrieval_rank = _rang(candidats, attendues)
@@ -137,7 +140,9 @@ def benchmark(modele, referentiel, verite, avec_llm=False):
 
     resume = construire_resume(details, instrumentation, time.perf_counter() - debut)
     return {"configuration": {"avec_llm": avec_llm, "llm_actif": llm_actif,
-                               "catalogue_size": len(catalogue)},
+                               "catalogue_size": len(catalogue),
+                               "embeddings_actifs": index_embeddings is not None,
+                               "erreur_embeddings": erreur_embeddings},
             "summary": resume, "details": details}
 
 

@@ -124,7 +124,7 @@ def generer_word(analyse, destination):
     subtitle.alignment = WD_ALIGN_PARAGRAPH.CENTER
     subtitle.runs[0].font.size = Pt(14)
     context = analyse.get("metadata", {}).get("context", {})
-    project = context.get("project_name") or "Projet GDS"
+    project = context.get("project_name") or "Projet analysé"
     info = document.add_paragraph(f"{project}\n{context.get('technology', 'Technologie non renseignée')} — {context.get('geography', 'Localisation non renseignée')}\n{datetime.now():%d/%m/%Y}")
     info.alignment = WD_ALIGN_PARAGRAPH.CENTER
     document.add_page_break()
@@ -159,19 +159,44 @@ def generer_word(analyse, destination):
              x.get("couts_projet_gds"), x.get("commentaires")]
             for x in analyse.get("tableau_benchmark_detaille", [])]
     _add_table(document,
-               ["Coûts", "Valeurs standards", "Projets en développement dans la région", "Projet GDS", "Commentaires"],
+               ["Coûts", "Valeurs standards", "Projets en développement dans la région", "Projet analysé", "Commentaires"],
                rows, widths=[4.0, 5.0, 5.7, 4.0, 7.0], font_size=7.5)
 
-    _heading(document, "10. Indicateurs financiers dérivés")
+    sector = analyse.get("comparaison_sectorielle_irena", {})
+    paragraph = document.add_paragraph()
+    run = paragraph.add_run("Références sectorielles IRENA — base active")
+    run.bold = True
+    if sector.get("status") != "APPLIED":
+        document.add_paragraph("Aucune référence IRENA applicable dans la base active.")
+    else:
+        sector_rows = [[x.get("metric"), x.get("value"), x.get("unit"), x.get("geography"),
+                        x.get("position"), x.get("source_location")]
+                       for x in sector.get("comparisons", [])]
+        _add_table(document, ["Métrique", "Référence", "Unité", "Géographie", "Position", "Provenance"],
+                   sector_rows, widths=[4, 3, 3.5, 3.5, 3, 7], font_size=7)
+
+    _heading(document, "10. Projets comparables approuvés")
+    peers = analyse.get("comparaison_projets_pairs", {})
+    if peers.get("status") != "APPLIED":
+        document.add_paragraph("Comparaison par projets pairs non réalisée ou aucun comparable approuvé.")
+    else:
+        document.add_paragraph(f"{peers.get('approved_count', 0)} projet(s) approuvé(s) par l'analyste.")
+        peer_rows = [[x.get("label"), x.get("project_value"), x.get("p25"), x.get("median"),
+                      x.get("p75"), x.get("sample_size"), x.get("position"), x.get("reliability")]
+                     for x in peers.get("comparisons", [])]
+        _add_table(document, ["Métrique", "Projet", "P25", "Médiane", "P75", "n", "Position", "Fiabilité"],
+                   peer_rows, widths=[4.5, 3, 3, 3, 3, 1.5, 3, 2.5], font_size=7)
+
+    _heading(document, "11. Indicateurs financiers dérivés")
     derived = [[x.get("cle"), _format_indicator(x), x.get("unite"), x.get("formule")]
                for x in analyse.get("indicateurs_derives", []) if x.get("calculable")]
     _add_table(document, ["Indicateur", "Valeur", "Unité", "Formule"], derived,
                widths=[5.5, 3.5, 3.5, 10.0], font_size=8)
 
     for number, title_text, key, fill in (
-        (11, "Risques principaux", "risques", RED),
-        (12, "Données manquantes importantes", "donnees_manquantes_importantes", LIGHT_GREY),
-        (13, "Recommandations", "recommandations", GREEN),
+        (12, "Risques principaux", "risques", RED),
+        (13, "Données manquantes importantes", "donnees_manquantes_importantes", LIGHT_GREY),
+        (14, "Recommandations", "recommandations", GREEN),
     ):
         _heading(document, f"{number}. {title_text}")
         values = analyse.get(key, [])

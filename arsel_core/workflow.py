@@ -45,6 +45,7 @@ from .gemini_provider import (
     appeler_json,
 )
 from .tfidf_search import IndexTfidf
+from .embedding_search import creer_index_embeddings
 from .llm_instrumentation import InstrumentationLLM
 from .candidate_pipeline import recuperer_candidats, scorer_candidats
 from .formula_dependency import IndexDependancesFormules
@@ -101,6 +102,26 @@ def doit_appeler_llm(scored):
         "signaux_neg",
         []
     )
+
+    # Un second candidat économiquement incompatible ne crée pas une véritable
+    # ambiguïté, même si son diagnostic Excel brut est proche.
+    if top2.get("score_metier", 1.0) < 0.5 or score2 < 0.60:
+        return False
+
+    # Accord de plusieurs retrievers + compatibilité métier et structurelle :
+    # Gemini n'apporte pas assez de valeur pour justifier un appel externe.
+    sources = top1.get("sources_retrieval", [])
+    contradictions_fortes = [
+        signal for signal in negatifs
+        if "incompatible" in signal or "exclu" in signal or "aberrante" in signal
+    ]
+    if (
+        score1 >= 0.85
+        and top1.get("score_metier", 1.0) >= 1.0
+        and len(sources) >= 2
+        and not contradictions_fortes
+    ):
+        return False
 
     # ------------------------------------------------------
     # Cas 1 : candidat très fort et clairement devant
@@ -164,6 +185,12 @@ def etape1(fichier, entrees):
     catalogue = collecter(fichier)
     print(f"{len(catalogue)} libellés." f"({time.time() - t0:.1f}s)")
     index_tfidf = IndexTfidf(catalogue)
+    t_embeddings = time.time()
+    index_embeddings, erreur_embeddings = creer_index_embeddings(catalogue)
+    if index_embeddings is not None:
+        print(f"  Embeddings locaux : disponibles ({time.time() - t_embeddings:.1f}s)")
+    else:
+        print(f"  Embeddings locaux : indisponibles — repli TF-IDF ({erreur_embeddings})")
 
     # ==========================================================
     # DEBUG TEMPORAIRE — libellés liés à l'impôt
@@ -326,6 +353,7 @@ def etape1(fichier, entrees):
         cands, _, _ = recuperer_candidats(
             e, catalogue, index_tfidf,
             index_dependances=index_dependances,
+            index_embeddings=index_embeddings,
         )
         if not cands:
             r["statut"] = "aucun candidat présélectionné"
@@ -334,6 +362,18 @@ def etape1(fichier, entrees):
 
         # (c) détecteur + filtre : implémentation partagée avec le benchmark
         scored = scorer_candidats(wb, e, cands, wb_formules=wb_formules)
+        r["alternatives"] = [
+            {
+                "libelle": candidat.get("libelle"),
+                "cellule_libelle": candidat.get("cellule_libelle"),
+                "adresse_valeur": candidat.get("adresse_valeur"),
+                "valeur": candidat.get("valeur"),
+                "unite": candidat.get("unite_detectee"),
+                "score": round(candidat.get("score", 0.0), 3),
+            }
+            for candidat in scored[:10]
+            if candidat.get("score", 0.0) > 0
+        ]
         # ==========================================================
         # DEBUG TEMPORAIRE — détail des candidats
         # ==========================================================
@@ -417,6 +457,7 @@ def etape1(fichier, entrees):
         # ==========================================================
 
         top = scored[0]
+        r["unite"] = top.get("unite_detectee") or e.get("unite")
         decision_semantique = {
             "selection_outcome": OUTCOME_SELECTED,
             "execution_status": STATUS_NOT_REQUIRED,
@@ -923,6 +964,9 @@ def etape1(fichier, entrees):
             r.update(adresse=adr, structure=res["structure"], detail=res["detail"],
                      resume=resumer(res), confiance=top["score"],
                      signaux={"+": top["signaux_pos"], "-": top["signaux_neg"]}, statut=statut)
+            if r.get("unite"):
+                r["detail"]["unite"] = r["unite"]
+                r["resume"] = f"{r['resume']} [{r['unite']}]"
         except Exception as ex:
 
             print(
@@ -967,6 +1011,25 @@ def etape1(fichier, entrees):
 
 
 # ------------------------------------------------------------------- étape 2
+def appliquer_unite_analyste(resultat, nouvelle_unite):
+    """Apply an analyst unit correction without altering the extracted value."""
+    nouvelle_unite = str(nouvelle_unite or "").strip()
+    if not nouvelle_unite:
+        return resultat
+    ancienne_unite = resultat.get("unite")
+    resume = resultat.get("resume") or ""
+    if ancienne_unite and resume.endswith(f" [{ancienne_unite}]"):
+        resume = resume[:-(len(ancienne_unite) + 3)]
+    resultat["unite"] = nouvelle_unite
+    resultat["unite_source"] = "analyste"
+    resultat["resume"] = f"{resume} [{nouvelle_unite}]" if resume else resume
+    detail = resultat.get("detail")
+    if isinstance(detail, dict):
+        detail["unite"] = nouvelle_unite
+        detail["unite_source"] = "analyste"
+    return resultat
+
+
 def etape2(wb, resultats, catalogue):
     print(
         "\n" + "═"*70 +
@@ -977,14 +1040,18 @@ def etape2(wb, resultats, catalogue):
     print(
         "  [v] valider · "
         "[a] ajouter/modifier valeur · "
+        "[u] corriger l'unité · "
         "[c] corriger l'adresse · "
+        "[p] métrique précédente · "
         "[s] indisponible · "
         "[q] quitter\n"
     )
 
     valides = []
 
-    for r in resultats:
+    index_metrique = 0
+    while index_metrique < len(resultats):
+        r = resultats[index_metrique]
 
         print("─"*60)
 
@@ -1019,6 +1086,8 @@ def etape2(wb, resultats, catalogue):
                 f"{r.get('resume') or '—'}"
             )
 
+            print(f"  UNITÉ : {r.get('unite') or 'non détectée'}")
+
             if r.get("signaux"):
 
                 if r["signaux"].get("+"):
@@ -1048,21 +1117,63 @@ def etape2(wb, resultats, catalogue):
                     f"{autres}"
                 )
 
+            if r.get("alternatives"):
+                print("    alternatives extraites :")
+                for alternative in r["alternatives"][:10 if r.get("cle") == "wht" else 5]:
+                    unite = f" [{alternative['unite']}]" if alternative.get("unite") else ""
+                    print(
+                        f"      - {alternative.get('libelle')} — "
+                        f"{alternative.get('adresse_valeur')} = {alternative.get('valeur')}"
+                        f"{unite} (score {alternative.get('score'):.0%})"
+                    )
+
         else:
 
             print(
                 f"  PROPOSITION : "
                 f"{r.get('resume') or r.get('statut') or 'aucune'}"
             )
+            print(f"  UNITÉ : {r.get('unite') or 'non détectée'}")
 
 
         # ======================================================
         # Choix analyste
         # ======================================================
 
-        rep = input(
-            "  [v/a/c/s/q] > "
-        ).strip().lower()
+        while True:
+            rep = input(
+                "  [v/a/u/c/p/s/q] > "
+            ).strip().lower()
+            commandes = {"v", "a", "u", "c", "p", "s", "q"}
+            if rep == "u":
+                nouvelle_unite = input(
+                    f"  unité correcte [{r.get('unite') or 'inconnue'}] "
+                    "(Entrée pour annuler) > "
+                ).strip()
+                # Une lettre de commande saisie au mauvais niveau ne devient
+                # jamais une unité. Elle est réinterprétée comme navigation.
+                if nouvelle_unite.lower() in commandes:
+                    rep = nouvelle_unite.lower()
+                    print("  → correction d'unité annulée")
+                    if rep == "u":
+                        continue
+                    break
+                if nouvelle_unite:
+                    appliquer_unite_analyste(r, nouvelle_unite)
+                    print(f"  → unité retenue : {r['unite']}")
+                else:
+                    print("  → unité inchangée")
+                continue
+            if rep in commandes:
+                break
+            try:
+                float(rep.replace(" ", "").replace(",", "."))
+                break
+            except ValueError:
+                print(
+                    "  → choix invalide; la métrique reste active. "
+                    "Utilisez v, a, u, c, p, s ou q."
+                )
 
 
         # ======================================================
@@ -1071,6 +1182,19 @@ def etape2(wb, resultats, catalogue):
 
         if rep == "q":
             break
+
+        if rep == "p":
+            if index_metrique == 0:
+                print("  → vous êtes déjà sur la première métrique")
+            else:
+                index_metrique -= 1
+                if (
+                    valides
+                    and valides[-1].get("cle") == resultats[index_metrique].get("cle")
+                ):
+                    valides.pop()
+                print("  → retour à la métrique précédente")
+            continue
 
 
         # ======================================================
@@ -1094,6 +1218,7 @@ def etape2(wb, resultats, catalogue):
             except ValueError:
                 valeur = valeur_txt
 
+            suffixe_unite = f" [{r.get('unite')}]" if r.get("unite") else ""
             r = {
                 **r,
                 "adresse": None,
@@ -1101,9 +1226,11 @@ def etape2(wb, resultats, catalogue):
                 "detail": {
                     "valeur": valeur,
                     "source": "analyste",
+                    "unite": r.get("unite"),
+                    "unite_source": r.get("unite_source"),
                 },
                 "resume": (
-                    f"{valeur} "
+                    f"{valeur}{suffixe_unite} "
                     f"(saisie analyste)"
                 ),
                 "confiance": 1.0,
@@ -1124,6 +1251,8 @@ def etape2(wb, resultats, catalogue):
             )
 
             valides.append(r)
+            resultats[index_metrique] = r
+            index_metrique += 1
             continue
 
 
@@ -1177,6 +1306,8 @@ def etape2(wb, resultats, catalogue):
             )
 
             valides.append(r)
+            resultats[index_metrique] = r
+            index_metrique += 1
             continue
 
 
@@ -1205,6 +1336,8 @@ def etape2(wb, resultats, catalogue):
             )
 
             valides.append(r)
+            resultats[index_metrique] = r
+            index_metrique += 1
             continue
 
 
@@ -1220,6 +1353,8 @@ def etape2(wb, resultats, catalogue):
             }
 
             valides.append(r)
+            resultats[index_metrique] = r
+            index_metrique += 1
             continue
 
 
@@ -1267,12 +1402,14 @@ def etape2(wb, resultats, catalogue):
             )
 
             valides.append(r)
+            resultats[index_metrique] = r
+            index_metrique += 1
 
         except ValueError:
 
             print(
                 "  → choix invalide. "
-                "Utilisez v, a, c, s ou q."
+                "Utilisez v, a, u, c, p, s ou q."
             )
 
             # IMPORTANT :
@@ -1336,6 +1473,9 @@ def etape3(valides, sortie="hypotheses_validees.json"):
 
         source = detail.get("source")
 
+        if valeur is None and source is None:
+            source = "indisponible"
+
         if not source:
 
             statut = r.get("statut", "")
@@ -1370,6 +1510,7 @@ def etape3(valides, sortie="hypotheses_validees.json"):
 
         "nature": r.get("nature"),
         "unite": r.get("unite"),
+        "unite_source": r.get("unite_source", "extraction"),
         "adresse": r.get("adresse"),
         "source": source,
         "confiance": r.get("confiance"),
@@ -1377,6 +1518,7 @@ def etape3(valides, sortie="hypotheses_validees.json"):
         "selection_outcome": r.get("selection_outcome"),
         "execution_status": r.get("execution_status"),
         "llm": r.get("llm"),
+        "alternatives": r.get("alternatives", []),
     }
 
         registre.append(entree)
@@ -1461,25 +1603,19 @@ def main():
     valides = etape2(wb, resultats, catalogue)
     registre_path = etape3(valides)
 
-    # Phase 2 consumes only the analyst-validated registry. It never reads the
-    # workbook and therefore cannot alter Phase 1 extraction results.
-    from phase2.pipeline import executer_phase2
-    contexte_phase2 = None
+    # The resumable orchestrator consumes only the validated registry and
+    # preserves the Phase 1 / analyst-validation boundary.
+    from arsel_core.orchestration import orchestrate_validated_analysis
     chemin_contexte = next(
         (p for p in ("phase2_context.json", os.path.join("phase2", "phase2_context.json"))
          if os.path.exists(p) and os.path.getsize(p) > 0),
         None,
     )
-    if chemin_contexte:
-        with open(chemin_contexte, encoding="utf-8") as f:
-            contexte_phase2 = json.load(f)
-    _, sortie_json, sortie_md = executer_phase2(
+    orchestrate_validated_analysis(
         registre_path,
-        contexte=contexte_phase2,
+        context_path=chemin_contexte or "phase2/phase2_context.json",
+        source_model=fichier,
     )
-    print("\nPHASE 2 — Analyse financière et benchmarks")
-    print(f"  JSON     → {sortie_json}")
-    print(f"  Markdown → {sortie_md}")
 
 
 if __name__ == "__main__":

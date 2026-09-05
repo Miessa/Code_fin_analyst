@@ -11,15 +11,19 @@ __pycache__/
 phase2_outputs/
 outputs/
 benchmark_hybrid/work/
+benchmark_bank/data/*.duckdb
+benchmark_bank/data/*.duckdb.wal
+benchmark_bank/data/**/*.duckdb
+benchmark_bank/data/**/*.duckdb.wal
+benchmark_bank/data/raw/
 
-# Office lock files
+# Documents Word générés et fichiers de verrouillage Office
+*.doc
+*.docx
 ~$*.docx
 ~$*.xlsx
 ~$*.xlsm
 
 # Configuration locale
 phase2/phase2_context.json
-
-
-
 

@@ -8,6 +8,7 @@ collecteur lit donc chaque ligne UNE fois, sous forme de tableau de valeurs,
 et y trouve libellé + 1re valeur voisine sans aucun accès cellule ponctuel.
 """
 import warnings; warnings.filterwarnings("ignore")
+import re
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
@@ -32,6 +33,23 @@ def _libelle_admis(texte, lmin=3, lmax=80):
     return lmin <= len(texte) < lmax
 
 
+UNIT_RE = re.compile(
+    r"(?:%|usd|eur|xaf|fcfa|cfa|gwh|mwh|kwh|mw|kw|years?|ans?|mois|months?|/kwh|/kw)",
+    re.IGNORECASE,
+)
+
+
+def _contexte_superieur(lignes_precedentes, colonne, rayon=2):
+    textes = []
+    for ligne in reversed(lignes_precedentes[-8:]):
+        for index in range(max(0, colonne - rayon), min(len(ligne), colonne + rayon + 1)):
+            valeur = ligne[index]
+            if isinstance(valeur, str) and valeur.strip() and valeur.strip() not in textes:
+                textes.append(valeur.strip())
+    unite = next((texte for texte in textes if UNIT_RE.search(texte)), None)
+    return textes[:8], unite
+
+
 def collecter(fichier, feuilles=FEUILLES_DEFAUT, max_lignes=None, lmin=3, lmax=80):
     """Catalogue : [{libelle, cellule_libelle, adresse_valeur, valeur}].
     Lecture 100% séquentielle : chaque ligne est convertie en liste de valeurs,
@@ -43,6 +61,7 @@ def collecter(fichier, feuilles=FEUILLES_DEFAUT, max_lignes=None, lmin=3, lmax=8
             continue
         ws = wv[nom]
         dernier_texte_par_colonne = {}
+        lignes_precedentes = []
         for ri, row in enumerate(ws.iter_rows(max_row=max_lignes), start=1):
             vals = [cell.value for cell in row]
             n = len(vals)
@@ -58,6 +77,9 @@ def collecter(fichier, feuilles=FEUILLES_DEFAUT, max_lignes=None, lmin=3, lmax=8
                                 val = vals[j]
                                 break
                         if adr_val is not None:
+                            contexte_haut, unite_detectee = _contexte_superieur(
+                                lignes_precedentes, j
+                            )
                             voisins_textuels = [
                                 str(vals[j]).strip()
                                 for j in range(max(0, i - 4), min(n, i + 5))
@@ -73,12 +95,17 @@ def collecter(fichier, feuilles=FEUILLES_DEFAUT, max_lignes=None, lmin=3, lmax=8
                                 "feuille": nom,
                                 "section": dernier_texte_par_colonne.get(i),
                                 "contexte": " | ".join(voisins_textuels),
+                                "contexte_haut": " | ".join(contexte_haut),
+                                "unite_detectee": unite_detectee,
                             })
             # Mettre à jour après la collecte afin que ``section`` désigne un
             # texte d'une ligne précédente, jamais le libellé lui-même.
             for i, valeur in enumerate(vals):
                 if isinstance(valeur, str) and valeur.strip():
                     dernier_texte_par_colonne[i] = valeur.strip()
+            lignes_precedentes.append(vals)
+            if len(lignes_precedentes) > 8:
+                lignes_precedentes.pop(0)
     return catalogue
 
 

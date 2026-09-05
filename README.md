@@ -40,11 +40,15 @@ Les deux fichiers nommés auparavant `referentiel_normes.json` ont maintenant de
 ## Prérequis
 
 ```powershell
-pip install openpyxl google-genai python-docx
+pip install -r requirements.txt
 setx GEMINI_API_KEY "votre-cle"
 ```
 
-Sans clé Gemini, la Phase 1 reste utilisable avec sa sélection déterministe et la validation manuelle. La Phase 2 est déterministe et ne nécessite pas d'appel LLM.
+Sans clé Gemini, la Phase 1 reste utilisable avec sa sélection hybride locale
+(présélection, TF-IDF et embeddings) et la validation manuelle. Si
+`sentence-transformers` ou son modèle local ne sont pas disponibles, elle se
+replie automatiquement sur la présélection et TF-IDF. La Phase 2 est
+déterministe et ne nécessite pas d'appel LLM.
 
 ## Outils d'évaluation
 

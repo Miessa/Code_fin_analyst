@@ -8,14 +8,24 @@ LABELS = {
 
 def _idx(xs): return {x["cle"]: x for x in xs}
 def _v(xs, key): return (xs.get(key) or {}).get("valeur")
-def _pct(x, n=1): return f"{100*x:.{n}f} %"
-def _num(x, n=0): return f"{x:,.{n}f}".replace(",", " ")
+def _pct(x, n=1):
+    return f"{100*x:.{n}f} %" if isinstance(x, (int, float)) else None
+
+
+def _num(x, n=0):
+    return f"{x:,.{n}f}".replace(",", " ") if isinstance(x, (int, float)) else None
 def _sec(facts, attention):
     return {"constats": [x for x in facts if x], "points_attention": [x for x in attention if x]}
 
 
 def _rate_fact(name, value):
-    return f"{name} : {_pct(value, 2)}." if value is not None else None
+    if isinstance(value, (int, float)):
+        return f"{name} : {_pct(value, 2)}."
+    if isinstance(value, list) and value:
+        return f"{name} : {' | '.join(str(x) for x in value)}."
+    if isinstance(value, str) and value.strip():
+        return f"{name} : {value}."
+    return None
 
 
 def construire_analyse(registre, indicateurs, comparaisons):
@@ -100,13 +110,32 @@ def construire_analyse(registre, indicateurs, comparaisons):
     if v("wacc") is None or v("taux_dette") is None: risks.append("Coût du capital incomplet: WACC et/ou taux de dette indisponibles.")
 
     dscr_text = f", avec un DSCR cible de {v('dscr_cible'):.2f}x" if v("dscr_cible") is not None else ""
-    summary = (
-        f"L'investissement total atteint {_num(total)} {currency}, dont {_pct(cshare)} correspond aux travaux de construction. "
-        f"La structure financière est fortement endettée ({_pct(debt)}{dscr_text}). "
-        f"Le TRI projet de {_pct(v('tri_projet'), 2)} dépasse le taux d'actualisation de {_pct(v('taux_actualisation'), 2)}, "
-        "mais l'absence de WACC et de taux de dette empêche de conclure définitivement sur la création de valeur et la soutenabilité du financement. "
-        "Les priorités de revue sont la justification des coûts hors construction, les conditions de dette et la cohérence entre tarif et OPEX."
+    summary_parts = []
+    if total is not None:
+        investment = f"L'investissement total atteint {_num(total)} {currency}."
+        if cshare is not None:
+            investment = (
+                f"L'investissement total atteint {_num(total)} {currency}, dont "
+                f"{_pct(cshare)} correspond aux travaux de construction."
+            )
+        elif capex is None:
+            investment += " Le coût de construction n'étant pas validé, sa part ne peut pas être calculée."
+        summary_parts.append(investment)
+    if debt is not None:
+        summary_parts.append(f"La structure financière est fortement endettée ({_pct(debt)}{dscr_text}).")
+    if v("tri_projet") is not None and v("taux_actualisation") is not None:
+        summary_parts.append(
+            f"Le TRI projet de {_pct(v('tri_projet'), 2)} dépasse le taux "
+            f"d'actualisation de {_pct(v('taux_actualisation'), 2)}."
+        )
+    if v("wacc") is None or v("taux_dette") is None:
+        summary_parts.append(
+            "Le coût du capital reste incomplet : le WACC et/ou le taux de dette sont indisponibles."
+        )
+    summary_parts.append(
+        "Les priorités de revue sont la justification des coûts, les conditions de dette et la cohérence entre tarif et OPEX."
     )
+    summary = " ".join(summary_parts)
     return {
         "synthese_executive": summary, "sections": sections, "indicateurs_derives": indicateurs,
         "comparaisons_benchmark": applied, "comparaisons_non_appliquees": excluded,
@@ -134,7 +163,7 @@ def generer_markdown(a):
             val = _pct(x["valeur"], 2) if x["unite"].startswith("ratio") else _num(x["valeur"], 2)
             out.append(f"| {x['cle']} | {val} | {x['unite']} |\n")
     out.append("\n## Tableau de comparaison des benchmarks\n\n")
-    out.append("| Coûts | Valeurs standards | Valeurs pour des projets en cours de développement dans la région | Coûts du projet GDS | Commentaires |\n")
+    out.append("| Coûts | Valeurs standards | Valeurs pour des projets en cours de développement dans la région | Coûts du projet analysé | Commentaires |\n")
     out.append("|---|---|---|---|---|\n")
     for row in a.get("tableau_benchmark_detaille", []):
         out.append(
@@ -142,6 +171,32 @@ def generer_markdown(a):
             f"{row['valeurs_projets_region']} | {row['couts_projet_gds']} | "
             f"{row['commentaires']} |\n"
         )
+    sector = a.get("comparaison_sectorielle_irena", {})
+    out.append("\n### Références sectorielles IRENA issues de la base active\n\n")
+    if sector.get("status") != "APPLIED":
+        out.append(f"Références non appliquées : {sector.get('reason', 'aucune référence compatible')}.\n")
+    else:
+        out.append("| Métrique | Référence | Unité | Géographie | Position du projet | Provenance |\n")
+        out.append("|---|---:|---|---|---|---|\n")
+        for item in sector.get("comparisons", []):
+            out.append(f"| {item['metric']} | {item.get('value')} | {item.get('unit')} | "
+                       f"{item.get('geography')} | {item.get('position')} | {item.get('source_location')} |\n")
+    peers = a.get("comparaison_projets_pairs", {})
+    out.append("\n## Projets comparables approuvés\n\n")
+    if peers.get("status") != "APPLIED":
+        out.append("Comparaison par projets pairs non réalisée ou aucun comparable approuvé.\n")
+    else:
+        out.append(f"Comparables approuvés : {peers.get('approved_count', 0)}.\n\n")
+        for item in peers.get("approved_projects", []):
+            out.append(f"- {item.get('project_name')} — score {item.get('score', 0):.1%}\n")
+        out.append("\n| Métrique | Projet | P25 | Médiane | P75 | n | Position | Fiabilité |\n")
+        out.append("|---|---:|---:|---:|---:|---:|---|---|\n")
+        for item in peers.get("comparisons", []):
+            out.append(
+                f"| {item['label']} | {item.get('project_value')} | {item.get('p25')} | "
+                f"{item.get('median')} | {item.get('p75')} | {item.get('sample_size')} | "
+                f"{item.get('position')} | {item.get('reliability')} |\n"
+            )
     out.append("\n## Contrôles et points de référence appliqués\n\n")
     if not a["comparaisons_benchmark"]: out.append("Aucune comparaison externe applicable et calculable avec le contexte validé.\n")
     else:
