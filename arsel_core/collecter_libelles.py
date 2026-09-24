@@ -11,6 +11,7 @@ import warnings; warnings.filterwarnings("ignore")
 import re
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
+from .unit_semantics import decompose_unit
 
 FEUILLES_DEFAUT = [
     "InpC",
@@ -41,7 +42,8 @@ UNIT_RE = re.compile(
 
 def _contexte_superieur(lignes_precedentes, colonne, rayon=2):
     textes = []
-    for ligne in reversed(lignes_precedentes[-8:]):
+    for entree in reversed(lignes_precedentes[-8:]):
+        ligne = entree[1] if isinstance(entree, tuple) else entree
         for index in range(max(0, colonne - rayon), min(len(ligne), colonne + rayon + 1)):
             valeur = ligne[index]
             if isinstance(valeur, str) and valeur.strip() and valeur.strip() not in textes:
@@ -50,15 +52,98 @@ def _contexte_superieur(lignes_precedentes, colonne, rayon=2):
     return textes[:8], unite
 
 
-def collecter(fichier, feuilles=FEUILLES_DEFAUT, max_lignes=None, lmin=3, lmax=80):
+def _unit_candidate(text, sheet, row, column, relation, row_distance, column_distance):
+    semantics = decompose_unit(text)
+    if not semantics:
+        return None
+    relation_base = {
+        "same_row_left": 0.96,
+        "same_row_right": 0.98,
+        "same_cell": 1.0,
+        "upper_header": 0.86,
+        "number_format": 0.92,
+    }.get(relation, 0.5)
+    distance = row_distance + column_distance
+    confidence = max(0.1, relation_base - 0.035 * max(0, distance - 1))
+    return {
+        "source_text": str(text).strip(),
+        "source_cell": f"{sheet}!{get_column_letter(column + 1)}{row}",
+        "spatial_relation": relation,
+        "row_distance": row_distance,
+        "column_distance": column_distance,
+        "attachment_confidence": round(confidence, 3),
+        "semantics": semantics,
+    }
+
+
+def _spatial_unit_candidates(vals, previous_rows, sheet, row, label_col, value_col, number_format=None):
+    """Collect unit hypotheses left, right and above without choosing one."""
+    candidates = []
+    seen = set()
+
+    def add(text, source_row, source_col, relation):
+        if not isinstance(text, str) or not text.strip():
+            return
+        item = _unit_candidate(
+            text, sheet, source_row, source_col, relation,
+            abs(row - source_row), abs(value_col - source_col),
+        )
+        if not item:
+            return
+        key = (item["source_cell"], item["semantics"]["unit_expression"])
+        if key not in seen:
+            seen.add(key)
+            candidates.append(item)
+
+    # Same row: retain both sides of the numeric value.  The label cell is
+    # included because units are sometimes written inside the label itself.
+    for col in range(max(0, label_col - 2), min(len(vals), value_col + 5)):
+        if col == value_col:
+            continue
+        relation = "same_row_left" if col < value_col else "same_row_right"
+        add(vals[col], row, col, relation)
+
+    # Headers: scan the eight buffered rows, favouring the same value column.
+    for source_row, previous in reversed(previous_rows):
+        for col in range(max(0, value_col - 2), min(len(previous), value_col + 3)):
+            add(previous[col], source_row, col, "upper_header")
+
+    if number_format and number_format != "General":
+        add(number_format, row, value_col, "number_format")
+
+    candidates.sort(key=lambda c: c["attachment_confidence"], reverse=True)
+    return candidates
+
+
+def _feuilles_a_parcourir(workbook, feuilles=None):
+    """Choisit les feuilles sans dépendre des noms propres à un modèle."""
+    disponibles = list(workbook.sheetnames)
+    if feuilles is not None:
+        return [nom for nom in feuilles if nom in disponibles]
+    prioritaires = [nom for nom in FEUILLES_DEFAUT if nom in disponibles]
+    restantes = [nom for nom in disponibles if nom not in prioritaires]
+    return prioritaires + restantes
+
+
+def collecter(
+    fichier, feuilles=None, max_lignes=None, lmin=3, lmax=80,
+    rapport=None,
+):
     """Catalogue : [{libelle, cellule_libelle, adresse_valeur, valeur}].
     Lecture 100% séquentielle : chaque ligne est convertie en liste de valeurs,
     puis on cherche dans cette liste (en mémoire) — pas d'accès cellule dispersé."""
     wv = load_workbook(fichier, data_only=True, read_only=True)
     catalogue = []
-    for nom in feuilles:
-        if nom not in wv.sheetnames:
-            continue
+    feuilles_disponibles = list(wv.sheetnames)
+    feuilles_parcourues = _feuilles_a_parcourir(wv, feuilles)
+    if rapport is not None:
+        rapport.update({
+            "feuilles_disponibles": feuilles_disponibles,
+            "feuilles_parcourues": feuilles_parcourues,
+            "nombre_feuilles_disponibles": len(feuilles_disponibles),
+            "nombre_feuilles_parcourues": len(feuilles_parcourues),
+        })
+    for nom in feuilles_parcourues:
         ws = wv[nom]
         dernier_texte_par_colonne = {}
         lignes_precedentes = []
@@ -77,8 +162,21 @@ def collecter(fichier, feuilles=FEUILLES_DEFAUT, max_lignes=None, lmin=3, lmax=8
                                 val = vals[j]
                                 break
                         if adr_val is not None:
-                            contexte_haut, unite_detectee = _contexte_superieur(
+                            contexte_haut, _ = _contexte_superieur(
                                 lignes_precedentes, j
+                            )
+                            unit_candidates = _spatial_unit_candidates(
+                                vals,
+                                lignes_precedentes,
+                                nom,
+                                ri,
+                                i,
+                                j,
+                                getattr(row[j], "number_format", None),
+                            )
+                            unite_detectee = (
+                                unit_candidates[0]["semantics"]["unit_expression"]
+                                if unit_candidates else None
                             )
                             voisins_textuels = [
                                 str(vals[j]).strip()
@@ -97,15 +195,17 @@ def collecter(fichier, feuilles=FEUILLES_DEFAUT, max_lignes=None, lmin=3, lmax=8
                                 "contexte": " | ".join(voisins_textuels),
                                 "contexte_haut": " | ".join(contexte_haut),
                                 "unite_detectee": unite_detectee,
+                                "unit_candidates": unit_candidates,
                             })
             # Mettre à jour après la collecte afin que ``section`` désigne un
             # texte d'une ligne précédente, jamais le libellé lui-même.
             for i, valeur in enumerate(vals):
                 if isinstance(valeur, str) and valeur.strip():
                     dernier_texte_par_colonne[i] = valeur.strip()
-            lignes_precedentes.append(vals)
+            lignes_precedentes.append((ri, vals))
             if len(lignes_precedentes) > 8:
                 lignes_precedentes.pop(0)
+    wv.close()
     return catalogue
 
 

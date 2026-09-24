@@ -15,6 +15,16 @@ def _norm(value):
 
 
 RULES = {
+    "investissement_total": {
+        "required_any": ("project cost", "total investment", "total project cost", "uses of funds", "total funding"),
+        # Ces exclusions portent sur le libellé lui-même. Un vrai « Project
+        # Cost » peut se trouver dans une section voisine des coûts de
+        # financement sans devenir pour autant un coût de financement.
+        "excluded_label": (
+            "financing cost", "insurance cost", "single tranche",
+            "development phase bidder paid",
+        ),
+    },
     "tarif": {
         "required_any": ("tariff", "tarif", "capacity charge", "ppa", "selling price"),
         "excluded": ("revenue", "turnover", "payment amount"),
@@ -25,7 +35,7 @@ RULES = {
     },
     "duree_dette": {
         "required_any": ("loan tenor", "debt tenor", "maturity", "loan term"),
-        "excluded": ("grace", "replacement", "tranche", "remaining maturity"),
+        "excluded": ("grace", "replacement", "remaining maturity"),
     },
     "amortissement_duree": {
         "required_any": ("depreciation period", "useful life", "amortissement", "asset life"),
@@ -48,7 +58,7 @@ RULES = {
         "excluded": ("construction profile", "construction date", "months in construction"),
     },
     "duree_concession": {
-        "required_any": ("concession period", "project life", "contract term", "length of operation", "operating period"),
+        "required_any": ("concession period", "project life", "contract term", "length of operation", "length of operations", "operating period"),
         "excluded": ("debt", "grace", "replacement", "tranche", "maturity"),
     },
 }
@@ -60,6 +70,7 @@ def evaluer_compatibilite(concept, candidat):
     texte = _norm(" | ".join(str(candidat.get(k) or "") for k in (
         "libelle", "section", "contexte", "contexte_haut", "unite_detectee"
     )))
+    libelle = _norm(candidat.get("libelle"))
     valeur = candidat.get("valeur")
     positifs, negatifs = [], []
     if isinstance(valeur, (int, float)) and not isinstance(valeur, bool) and valeur == 0:
@@ -70,6 +81,13 @@ def evaluer_compatibilite(concept, candidat):
     trouves_exclus = [x for x in exclus if x and x in texte]
     if trouves_exclus:
         return 0.05, positifs, [f"périmètre exclu: {x}" for x in trouves_exclus]
+
+    exclus_libelle = tuple(_norm(x) for x in regle.get("excluded_label", ()))
+    trouves_exclus_libelle = [x for x in exclus_libelle if x and x in libelle]
+    if trouves_exclus_libelle:
+        return 0.05, positifs, [
+            f"libellé explicitement exclu: {x}" for x in trouves_exclus_libelle
+        ]
 
     requis = tuple(_norm(x) for x in regle.get("required_any", ()))
     if requis:

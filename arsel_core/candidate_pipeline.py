@@ -7,6 +7,7 @@ from .structure_filter import diagnostiquer
 from .rank_fusion import reciprocal_rank_fusion
 from .formula_dependency import concept_attend_agregat, calculer_boost_dependances
 from .business_rules import evaluer_compatibilite
+from .unit_semantics import choose_unit_for_metric
 
 
 def valeur_plausible(valeur, borne_basse, borne_haute):
@@ -35,6 +36,7 @@ def recuperer_candidats(
         {"lexical": lexicaux, "tfidf": tfidf, "embeddings": embeddings},
         rrf_k=rrf_k,
     )
+    fusionnes = [choose_unit_for_metric(candidat, concept) for candidat in fusionnes]
     for candidat in fusionnes:
         analyse = {"dependency_count": 0, "leaf_count": 0,
                    "has_aggregate_formula": False, "max_depth_reached": 0}
@@ -96,6 +98,17 @@ def scorer_candidats(wb, concept, candidats, wb_formules=None):
             score = diagnostic["score"] * facteur_metier
             negatifs = list(diagnostic["signaux_negatifs"])
             negatifs.extend(negatifs_metier)
+            unit_assessment = candidat.get("unit_compatibility") or {}
+            if candidat.get("unit_status") == "confirmed":
+                diagnostic["signaux_positifs"].append(
+                    "unité spatiale compatible avec la métrique"
+                )
+            elif candidat.get("unit_status") == "conflict_metric_kept":
+                negatifs.append(
+                    "unité spatiale incompatible ou mal rattachée; candidat métrique conservé"
+                )
+            elif unit_assessment.get("family_status") == "unknown":
+                negatifs.append("unité spatiale non résolue; candidat métrique conservé")
             if not valeur_plausible(candidat.get("valeur"), borne_basse, borne_haute):
                 score *= 0.3
                 negatifs.append("valeur hors plage plausible")

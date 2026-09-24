@@ -1023,7 +1023,9 @@
     "structure_acceptee": "Structures admissibles mais moins prioritaires.",
     "structures_penalisees": "Structures proches sémantiquement mais non recherchées.",
     "portee_temporelle": "Contexte temporel attendu : year_1, COD, annual, lifetime, operations, etc.",
-    "famille_unite": "Famille d'unité attendue pour filtrer les faux positifs.",
+    "famille_unite": "Contrat d'unité propre à la métrique. Il sert à sélectionner l'hypothèse d'unité la plus compatible, sans éliminer à lui seul une cellule candidate.",
+    "familles_unite_acceptees": "Familles supplémentaires acceptables pour cette métrique, lorsque la famille principale ne suffit pas.",
+    "periodicite_preferee": "Périodicité attendue pour départager les hypothèses d'unité; une contradiction ne disqualifie pas seule la métrique.",
     "resolver": "Module déterministe chargé de transformer le candidat en valeur exploitable.",
     "validation": "Contrôles de cohérence à appliquer après sélection."
   }

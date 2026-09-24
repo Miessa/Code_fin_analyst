@@ -182,8 +182,14 @@ def etape1(fichier, entrees):
 
     t0 = time.time()
 
-    catalogue = collecter(fichier)
-    print(f"{len(catalogue)} libellés." f"({time.time() - t0:.1f}s)")
+    rapport_collecte = {}
+    catalogue = collecter(fichier, rapport=rapport_collecte)
+    print(
+        f"{len(catalogue)} libellés · "
+        f"{rapport_collecte.get('nombre_feuilles_parcourues', 0)}/"
+        f"{rapport_collecte.get('nombre_feuilles_disponibles', 0)} feuilles."
+        f"({time.time() - t0:.1f}s)"
+    )
     index_tfidf = IndexTfidf(catalogue)
     t_embeddings = time.time()
     index_embeddings, erreur_embeddings = creer_index_embeddings(catalogue)
@@ -369,10 +375,14 @@ def etape1(fichier, entrees):
                 "adresse_valeur": candidat.get("adresse_valeur"),
                 "valeur": candidat.get("valeur"),
                 "unite": candidat.get("unite_detectee"),
+                "unite_structuree": candidat.get("unit_semantics"),
+                "unite_conflit": candidat.get("unit_conflict_semantics"),
+                "unite_source": (candidat.get("unit_selected") or {}).get("source_cell"),
+                "unite_relation": (candidat.get("unit_selected") or {}).get("spatial_relation"),
+                "unite_statut": candidat.get("unit_status"),
                 "score": round(candidat.get("score", 0.0), 3),
             }
             for candidat in scored[:10]
-            if candidat.get("score", 0.0) > 0
         ]
         # ==========================================================
         # DEBUG TEMPORAIRE — détail des candidats
@@ -456,8 +466,21 @@ def etape1(fichier, entrees):
         # (d) SÉLECTION SÉMANTIQUE
         # ==========================================================
 
+        if not scored or scored[0].get("score", 0.0) <= 0:
+            r.update(
+                statut="aucune proposition fiable",
+                selection_outcome=OUTCOME_NO_MATCH,
+                execution_status=STATUS_NOT_REQUIRED,
+                resume="aucun candidat compatible non nul",
+                confiance=0.0,
+            )
+            resultats.append(r)
+            print(f"  {cle:22s} → aucune proposition fiable       [0%]")
+            continue
+
         top = scored[0]
         r["unite"] = top.get("unite_detectee") or e.get("unite")
+        r["unite_source"] = "extraction" if top.get("unite_detectee") else "referentiel"
         decision_semantique = {
             "selection_outcome": OUTCOME_SELECTED,
             "execution_status": STATUS_NOT_REQUIRED,
@@ -919,6 +942,13 @@ def etape1(fichier, entrees):
         r["execution_status"] = decision_semantique.get("execution_status")
         r["decision_semantique"] = decision_semantique
         r["llm"] = instrumentation_llm.pour_metrique(cle)
+        r["unite"] = top.get("unite_detectee") or e.get("unite")
+        r["unite_structuree"] = top.get("unit_semantics")
+        r["unite_conflit"] = top.get("unit_conflict_semantics")
+        r["unite_source_cellule"] = (top.get("unit_selected") or {}).get("source_cell")
+        r["unite_relation_spatiale"] = (top.get("unit_selected") or {}).get("spatial_relation")
+        r["unite_confiance_rattachement"] = top.get("unit_attachment_confidence")
+        r["unite_statut"] = top.get("unit_status", "unknown_metric_kept")
 
         # (e) résolution structure + plausibilité
         adr = top["cellule_libelle"]
@@ -1511,6 +1541,12 @@ def etape3(valides, sortie="hypotheses_validees.json"):
         "nature": r.get("nature"),
         "unite": r.get("unite"),
         "unite_source": r.get("unite_source", "extraction"),
+        "unite_structuree": r.get("unite_structuree"),
+        "unite_conflit": r.get("unite_conflit"),
+        "unite_source_cellule": r.get("unite_source_cellule"),
+        "unite_relation_spatiale": r.get("unite_relation_spatiale"),
+        "unite_confiance_rattachement": r.get("unite_confiance_rattachement"),
+        "unite_statut": r.get("unite_statut"),
         "adresse": r.get("adresse"),
         "source": source,
         "confiance": r.get("confiance"),
